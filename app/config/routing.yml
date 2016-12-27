@@ -1,0 +1,3 @@
+sports_betting:
+    resource: "@SportsBettingBundle/Resources/config/routing.yml"
+    prefix:   /

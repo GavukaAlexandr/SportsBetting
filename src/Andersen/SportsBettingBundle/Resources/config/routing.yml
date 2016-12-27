@@ -1,0 +1,3 @@
+sports_betting_homepage:
+    path:     /
+    defaults: { _controller: SportsBettingBundle:Default:index }
