@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+
+    <link href="{{ asset('vendor/bootstrap/dist/css/bootstrap.min.css')
+    }}" media="all" rel="stylesheet" type="text/css" />
+
+    <script src="{{ asset('vendor/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+
+    <title>{% block title %}Test Application{% endblock %}</title>
+</head>
+{% block body %}
+    {% block header %}{% endblock %}
+
+    {% block left_aside %}{% endblock %}
+
+    {% block content %}{% endblock %}
+
+    {% block footer %}{% endblock %}
+
+{% endblock %}
+</html>

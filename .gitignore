@@ -33,6 +33,7 @@
 
 # Assets managed by Bower
 /web/assets/vendor/
+/web/vendor/
 
 # PHPUnit
 /app/phpunit.xml
