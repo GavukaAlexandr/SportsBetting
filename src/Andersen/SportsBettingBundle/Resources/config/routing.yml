@@ -1,3 +1,7 @@
 sports_betting_homepage:
-    path:     /
+    path:     /sports
     defaults: { _controller: SportsBettingBundle:Bet:index }
+
+sports_betting_sports_bets:
+    path:     /sports/{sportId}/bets
+    defaults: { _controller: SportsBettingBundle:Bet:getSportBets }

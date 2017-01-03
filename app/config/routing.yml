@@ -1,3 +1,12 @@
-sports_betting:
+sports_betting_api:
     resource: "@SportsBettingBundle/Resources/config/routing.yml"
-    prefix:   /
+    prefix:   /api
+
+
+sports_betting_frontend:
+    defaults: { _controller: SportsBettingBundle:Bet:frontend }
+    path: /{url}
+    requirements:
+        url: ".*"
+
+

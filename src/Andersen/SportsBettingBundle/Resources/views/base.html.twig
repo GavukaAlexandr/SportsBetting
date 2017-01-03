@@ -1,23 +1,35 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" ng-app="myApp">
 <head>
     <meta charset="UTF-8">
-
-    <link href="{{ asset('vendor/bootstrap/dist/css/bootstrap.min.css')
-    }}" media="all" rel="stylesheet" type="text/css" />
-
-    <script src="{{ asset('vendor/bootstrap/dist/js/bootstrap.min.js') }}"></script>
-
+    <link href="{{ asset('vendor/bootstrap/dist/css/bootstrap.min.css') }}" media="all" rel="stylesheet"
+          type="text/css"/>
+    <link href="{{ asset('asset/css/main.css') }}" media="all" rel="stylesheet" type="text/css"/>
     <title>{% block title %}Test Application{% endblock %}</title>
 </head>
 {% block body %}
-    {% block header %}{% endblock %}
+<body>
+<div class="container-fluid">
+    <div class="row">
+        {% block header %}{% endblock %}
 
-    {% block left_aside %}{% endblock %}
+        {% block left_aside %}{% endblock %}
 
-    {% block content %}{% endblock %}
+        {% block content %}{% endblock %}
 
-    {% block footer %}{% endblock %}
-
+        {% block footer %}{% endblock %}
+    </div>
+</div>
 {% endblock %}
+
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"
+        integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+        crossorigin="anonymous"></script>
+<script src="{{ asset('vendor/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.min.js"></script>
+<script src="{{ asset('asset/js/main.js') }}"></script>
+<script src="{{ asset('asset/js/controllers.js') }}"></script>
+
+</body>
+
 </html>

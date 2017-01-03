@@ -1,0 +1,30 @@
+header {
+    background-color: #2D2D2D;
+    color: #ffffff;
+}
+
+aside {
+    /*margin-top: 0.5rem;*/
+    /*border: #2D2D2D solid 0.3rem;*/
+}
+
+.external {
+    margin-top: 0.5rem;
+}
+
+.content-container {
+    /*border: #2D2D2D solid 0.3rem;*/
+    /*margin-top: 0.5rem;*/
+    /*margin-right: 0;*/
+
+}
+
+.external {
+    padding-left: 0;
+}
+
+footer {
+    margin-top: 0.5rem;
+    border: #2D2D2D solid 0.3rem;
+    color: #ffffff;
+}

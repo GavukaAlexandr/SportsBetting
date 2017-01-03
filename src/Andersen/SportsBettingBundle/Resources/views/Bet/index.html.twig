@@ -1,5 +1,38 @@
 {% extends 'SportsBettingBundle:Bet:layout.html.twig' %}
 {% block header %}
-    <h1>Sports betting</h1>
+    <header class="col-lg-12">
+        <h1>Sports betting</h1>
+    </header>
+{% endblock %}
+
+{% block left_aside_content_wrapper %}
+
+    <div class="container-fluid">
+        {% block left_aside %}
+            <aside class="col-lg-3" ng-controller="MainCtrl">
+                <h3>Kinds of sports</h3>
+
+                {#для виводу Json на сторінку#}
+                {#<pre ng-bind="sports | json"></pre>#}
+
+                <div class="list-group">
+                    <a href="#" class="list-group-item" data-ng-repeat="item in sports">{[{ item.SportType }]}</a>
+                </div>
+            </aside>
+        {% endblock %}
+
+        {% block content %}
+            <div class="col-lg-9 external">
+                <main class="col-lg-12 content-container">
+                    <h3>Bets</h3>
+                </main>
+            </div>
+        {% endblock %}
+    </div>
+{% endblock %}
+{% block footer %}
+    <footer class="col-lg-12 footer navbar-fixed-bottom navbar-inverse">
+        <h3>FOOTER</h3>
+    </footer>
 {% endblock %}
 
