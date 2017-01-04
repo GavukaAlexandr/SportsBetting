@@ -17,7 +17,7 @@ class LoadBetData extends AbstractFixture implements OrderedFixtureInterface
             $betsValue[] = rand(50, 1000);
         }
 
-        foreach ($betsValue as &$value)
+        foreach ($betsValue as $value)
         {
             $betType = new Bet();
             $betType->setBetsValue($value);
@@ -26,6 +26,7 @@ class LoadBetData extends AbstractFixture implements OrderedFixtureInterface
             $manager->persist($betType);
             $manager->flush();
         }
+
     }
 
     public function getOrder()

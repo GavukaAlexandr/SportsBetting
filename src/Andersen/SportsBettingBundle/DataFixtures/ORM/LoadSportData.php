@@ -1,11 +1,13 @@
 <?php
 namespace Andersen\SportsBettingBundle\DataFixtures\ORM;
 
+use Doctrine\Common\DataFixtures\AbstractFixture;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Andersen\SportsBettingBundle\Entity\Sport;
 
-class LoadSportData implements FixtureInterface
+class LoadSportData extends AbstractFixture implements OrderedFixtureInterface
 {
     public function load(ObjectManager $manager)
     {
@@ -35,9 +37,16 @@ class LoadSportData implements FixtureInterface
             $sportType = new Sport();
             $sportType->setSportType($value);
 
+            $this->setReference('sport-team', $sportType);
+
             $manager->persist($sportType);
             $manager->flush();
         }
 
+    }
+
+    public function getOrder()
+    {
+        // TODO: Implement getOrder() method.
     }
 }
