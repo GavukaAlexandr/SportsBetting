@@ -10,14 +10,31 @@ namespace Andersen\SportsBettingBundle\Repository;
  */
 class BetRepository extends \Doctrine\ORM\EntityRepository
 {
-public function findAllBets($sportId)
-{
-    $allBets = $this->getEntityManager()->getRepository("SportsBettingBundle:Bet");
-    $query = $allBets->createQueryBuilder('bet')
-        ->where('bet.sport > :sport')
-        ->setParameter('sport', $sportId)
-        ->getQuery();
-    return $query->getResult();
+    public function findAllBets($sportId)
+    {
+        $allBets = $this->getEntityManager()->getRepository("SportsBettingBundle:Bet");
+        $query = $allBets->createQueryBuilder('bet')
+            ->where('bet.sport > :sport')
+            ->setParameter('sport', $sportId)
+            ->getQuery();
+        return $query->getResult();
 
-}
+    }
+
+    public function findAllSportGameBets($sportId, $gameId)
+    {
+        $sportGameBets = $this
+            ->getEntityManager()
+            ->createQueryBuilder()
+            ->select('s', 'g', 'b')
+            ->from('SportsBettingBundle:Bet', 'b')
+            ->leftJoin('b.sport', 's')
+            ->leftJoin('b.game', 'g')
+            ->where('s.id = :sportId')
+            ->andWhere('g.id = :gameId')
+            ->setParameter('sportId', $sportId)
+            ->setParameter('gameId', $gameId);
+        $query = $sportGameBets->getQuery()->getResult();
+        return $query;
+    }
 }

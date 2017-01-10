@@ -8,4 +8,9 @@ myApp.controller('MainCtrl', ['$scope', '$http', function ($scope, $http) {
     $http.get('/api/sports').then(function(res) {
         $scope.sports = res.data;
     });
+
+    $scope.sportGames = [];
+    $http.get('/api/sports/game/game').then(function(res) {
+        $scope.sportGames = res.data
+    });
 }]);

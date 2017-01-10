@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="game")
  * @ORM\Entity(repositoryClass="Andersen\SportsBettingBundle\Repository\GameRepository")
  */
-class Game
+class Game implements \JsonSerializable
 {
     /**
      * @var int
@@ -40,6 +40,28 @@ class Game
      * @ORM\Column(name="teamWinner", type="string", length=255)
      */
     private $teamWinner;
+
+    /**
+     * Many Game have one Sport
+     * @ORM\ManyToOne(targetEntity="Andersen\SportsBettingBundle\Entity\Sport", inversedBy="games")
+     */
+    private $sport;
+
+    /**
+     * @return mixed
+     */
+    public function getSport()
+    {
+        return $this->sport;
+    }
+
+    /**
+     * @param mixed $sport
+     */
+    public function setSport($sport)
+    {
+        $this->sport = $sport;
+    }
 
 
     /**
@@ -153,5 +175,23 @@ class Game
     public function removeTeam(\Andersen\SportsBettingBundle\Entity\Team $team)
     {
         $this->teams->removeElement($team);
+    }
+
+    /**
+     * Specify data which should be serialized to JSON
+     * @link http://php.net/manual/en/jsonserializable.jsonserialize.php
+     * @return mixed data which can be serialized by <b>json_encode</b>,
+     * which is a value of any type other than a resource.
+     * @since 5.4.0
+     */
+    function jsonSerialize()
+    {
+        return [
+            'name' => $this->getName(),
+//            'teams' => $this->getTeams(),
+//            'teamWinner' => $this->getTeamWinner(),
+            'sport' => $this->getSport()
+        ];
+        // TODO: Implement jsonSerialize() method.
     }
 }

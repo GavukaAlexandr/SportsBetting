@@ -5,3 +5,27 @@ sports_betting_homepage:
 sports_betting_sports_bets:
     path:     /sports/{sportId}/bets
     defaults: { _controller: SportsBettingBundle:Bet:getSportBets }
+
+sports_betting_sports_games:
+    path:     /sports/{sportId}/games
+    defaults: { _controller: SportsBettingBundle:Bet:getSportGames }
+
+sports_betting_list_bets_for_game:
+    path: /sports/{sportId}/game/{gameId}/bets
+    defaults: { _controller: SportsBettingBundle:Bet:getSportGameBets }
+
+
+
+###GET /sports - список видів спорту
+###GET /sports/{sportId}/games - список ігор по видові спорту
+#GET /sports/{sportId}/game/{gameId}/teams - список команд які беруть участь у грі
+#GET /sports/{sportId}/game/{gameId}/bets - список ставок на гру
+#POST /sports/{sportId}/game/{gameId}/team/{teamId}/bet - зробити ставку на обрану гру
+#GET /bet/complete - перегляд закінчених ставок на всі ігри по усіх видах спорту
+#GET /bet/notcomplete - перегляд не закінчених ставок на всі ігри по усіх видах спорту
+#GET /sports/{sportId}/game/{gameId}/bet/complete - перегляд закінчених ставок на гру по по виду спорту
+#GET /sports/{sportId}/game/{gameId}/bet/notcomplete - перегляд не закінчених ставок на гру по по виду спорту
+#GET /user/{userId}/money перегляд балансу юзера
+#POST /user/{userId}/money/add поповнити баланс юзера
+
+

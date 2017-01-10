@@ -53,6 +53,27 @@ class Bet implements \JsonSerializable
     private $user;
 
     /**
+     * @var int
+     *
+     * @ORM\Column(name="factorVictory", type="integer")
+     */
+    private $factorVictory;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="factorDraw", type="integer")
+     */
+    private $factorDraw;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="money", type="integer")
+     */
+    private $money;
+
+    /**
      * @return mixed
      */
     public function getUser()
@@ -167,6 +188,55 @@ class Bet implements \JsonSerializable
         return $this->betsValue;
     }
 
+
+    /**
+     * @return int
+     */
+    public function getFactorVictory(): int
+    {
+        return $this->factorVictory;
+    }
+
+    /**
+     * @param int $factorVictory
+     */
+    public function setFactorVictory(int $factorVictory)
+    {
+        $this->factorVictory = $factorVictory;
+    }
+
+    /**
+     * @return int
+     */
+    public function getFactorDraw(): int
+    {
+        return $this->factorDraw;
+    }
+
+    /**
+     * @param int $factorDraw
+     */
+    public function setFactorDraw(int $factorDraw)
+    {
+        $this->factorDraw = $factorDraw;
+    }
+
+    /**
+     * @return int
+     */
+    public function getMoney(): int
+    {
+        return $this->money;
+    }
+
+    /**
+     * @param int $money
+     */
+    public function setMoney(int $money)
+    {
+        $this->money = $money;
+    }
+
     /**
      * Specify data which should be serialized to JSON
      * @link http://php.net/manual/en/jsonserializable.jsonserialize.php
@@ -176,7 +246,10 @@ class Bet implements \JsonSerializable
      */
     function jsonSerialize()
     {
-
+        return [
+            'money' => $this->getMoney(),
+            'team_1_factor' => $this->getFactorVictory(),
+        ];
         // TODO: Implement jsonSerialize() method.
     }
 }

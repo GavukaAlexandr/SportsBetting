@@ -20,7 +20,6 @@ class BetController extends Controller
             ->findAllSports();
         $response = new JsonResponse($allSports);
         return $response;
-
     }
 
     public function frontendAction()
@@ -30,11 +29,34 @@ class BetController extends Controller
 
     public function getSportBetsAction($sportId)
     {
-        $allBets = $this->getDoctrine()
+        $allBets = $this
+            ->getDoctrine()
             ->getManager()
             ->getRepository('SportsBettingBundle:Bet')
             ->findAllBets($sportId);
         $response = new JsonResponse($allBets);
+        return $response;
+    }
+
+    public function getSportGamesAction($sportId)
+    {
+        $sportGame = $this
+            ->getDoctrine()
+            ->getManager()
+            ->getRepository('SportsBettingBundle:Game')
+            ->findAllGamesOfSportType($sportId);
+        $response = new JsonResponse($sportGame);
+        return $response;
+    }
+
+    public function getSportGameBetsAction($sportId, $gameId)
+    {
+        $sportGameBets = $this
+            ->getDoctrine()
+            ->getManager()
+            ->getRepository('SportsBettingBundle:Bet')
+            ->findAllSportGameBets($sportId, $gameId);
+        $response = new JsonResponse($sportGameBets);
         return $response;
     }
 }

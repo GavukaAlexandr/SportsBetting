@@ -33,11 +33,11 @@ class LoadSportData extends AbstractFixture implements OrderedFixtureInterface
             "Freestyle",
             "Coding",
         ];
-        foreach ($sports as &$value){
+        foreach ($sports as $key => $value){
             $sportType = new Sport();
             $sportType->setSportType($value);
 
-            $this->setReference('sport-team', $sportType);
+            $this->setReference('sport-team_', $sportType);
 
             $manager->persist($sportType);
             $manager->flush();

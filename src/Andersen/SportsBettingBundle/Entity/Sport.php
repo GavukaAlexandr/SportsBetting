@@ -34,6 +34,32 @@ class Sport implements \JsonSerializable
      */
     private $teams;
 
+    /**
+     * @var
+     *
+     * One Sport have many Game
+     * @ORM\OneToMany(targetEntity="Andersen\SportsBettingBundle\Entity\Game", mappedBy="sport")
+     */
+    private $games;
+
+    /**
+     * @return mixed
+     */
+    public function getGames()
+    {
+        return $this->games;
+    }
+
+    /**
+     * @param mixed $games
+     */
+    public function setGames($games)
+    {
+        $this->games = $games;
+    }
+
+
+
 
     /**
      * Get id
@@ -134,7 +160,8 @@ class Sport implements \JsonSerializable
     function jsonSerialize()
     {
         return [
-            'SportType' => $this->getSportType()
+            'SportType' => $this->getSportType(),
+            'games' => $this->getGames()
         ];
         // TODO: Implement jsonSerialize() method.
     }
