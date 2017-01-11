@@ -165,4 +165,28 @@ class Sport implements \JsonSerializable
         ];
         // TODO: Implement jsonSerialize() method.
     }
+
+    /**
+     * Add game
+     *
+     * @param \Andersen\SportsBettingBundle\Entity\Game $game
+     *
+     * @return Sport
+     */
+    public function addGame(\Andersen\SportsBettingBundle\Entity\Game $game)
+    {
+        $this->games[] = $game;
+
+        return $this;
+    }
+
+    /**
+     * Remove game
+     *
+     * @param \Andersen\SportsBettingBundle\Entity\Game $game
+     */
+    public function removeGame(\Andersen\SportsBettingBundle\Entity\Game $game)
+    {
+        $this->games->removeElement($game);
+    }
 }

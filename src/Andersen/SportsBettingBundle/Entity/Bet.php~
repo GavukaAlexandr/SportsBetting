@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="bet")
  * @ORM\Entity(repositoryClass="Andersen\SportsBettingBundle\Repository\BetRepository")
  */
-class Bet
+class Bet implements \JsonSerializable
 {
     /**
      * @var int
@@ -51,6 +51,27 @@ class Bet
      * @ORM\ManyToOne(targetEntity="Andersen\SportsBettingBundle\Entity\User", inversedBy="bets")
      */
     private $user;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="factorVictory", type="integer")
+     */
+    private $factorVictory;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="factorDraw", type="integer")
+     */
+    private $factorDraw;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="money", type="integer")
+     */
+    private $money;
 
     /**
      * @return mixed
@@ -165,5 +186,70 @@ class Bet
     public function getBetsValue()
     {
         return $this->betsValue;
+    }
+
+
+    /**
+     * @return int
+     */
+    public function getFactorVictory(): int
+    {
+        return $this->factorVictory;
+    }
+
+    /**
+     * @param int $factorVictory
+     */
+    public function setFactorVictory(int $factorVictory)
+    {
+        $this->factorVictory = $factorVictory;
+    }
+
+    /**
+     * @return int
+     */
+    public function getFactorDraw(): int
+    {
+        return $this->factorDraw;
+    }
+
+    /**
+     * @param int $factorDraw
+     */
+    public function setFactorDraw(int $factorDraw)
+    {
+        $this->factorDraw = $factorDraw;
+    }
+
+    /**
+     * @return int
+     */
+    public function getMoney(): int
+    {
+        return $this->money;
+    }
+
+    /**
+     * @param int $money
+     */
+    public function setMoney(int $money)
+    {
+        $this->money = $money;
+    }
+
+    /**
+     * Specify data which should be serialized to JSON
+     * @link http://php.net/manual/en/jsonserializable.jsonserialize.php
+     * @return mixed data which can be serialized by <b>json_encode</b>,
+     * which is a value of any type other than a resource.
+     * @since 5.4.0
+     */
+    function jsonSerialize()
+    {
+        return [
+            'money' => $this->getMoney(),
+            'team_1_factor' => $this->getFactorVictory(),
+        ];
+        // TODO: Implement jsonSerialize() method.
     }
 }

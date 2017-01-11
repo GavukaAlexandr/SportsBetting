@@ -10,7 +10,7 @@ parameters:
 
 framework:
     #esi:             ~
-    #translator:      { fallbacks: ["%locale%"] }
+    translator:      ~
     secret:          "%secret%"
     router:
         resource: "%kernel.root_dir%/config/routing.yml"
@@ -68,3 +68,17 @@ swiftmailer:
     username:  "%mailer_user%"
     password:  "%mailer_password%"
     spool:     { type: memory }
+
+fos_user:
+    db_driver: orm # other valid values are 'mongodb' and 'couchdb'
+    firewall_name: main
+    user_class: Andersen\SportsBettingBundle\Entity\User
+
+#hwi_oauth:
+#    firewall_names: [secured_area]
+#    resource_owners:
+#        any_name:
+#            type:                github
+#            client_id:           60942d95a2e0eb61c0f4
+#            client_secret:       801b4939c1a0c2c2896299b494463691ffd6059a
+#            scope:               'user:email,public_repo'

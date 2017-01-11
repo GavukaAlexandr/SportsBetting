@@ -122,4 +122,35 @@ class Team
     {
         return $this->games;
     }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->games = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add game
+     *
+     * @param \Andersen\SportsBettingBundle\Entity\Game $game
+     *
+     * @return Team
+     */
+    public function addGame(\Andersen\SportsBettingBundle\Entity\Game $game)
+    {
+        $this->games[] = $game;
+
+        return $this;
+    }
+
+    /**
+     * Remove game
+     *
+     * @param \Andersen\SportsBettingBundle\Entity\Game $game
+     */
+    public function removeGame(\Andersen\SportsBettingBundle\Entity\Game $game)
+    {
+        $this->games->removeElement($game);
+    }
 }

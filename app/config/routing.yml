@@ -2,22 +2,28 @@ sports_betting_api:
     resource: "@SportsBettingBundle/Resources/config/routing.yml"
     prefix:   /api
 
+### FosUserBundle ###
+fos_user:
+    resource: "@FOSUserBundle/Resources/config/routing/all.xml"
+
+###   HWIOAuthBundle   ###
+#hwi_oauth_redirect:
+#    resource: "@HWIOAuthBundle/Resources/config/routing/redirect.xml"
+#    prefix:   /connect
+#
+#hwi_oauth_connect:
+#    resource: "@HWIOAuthBundle/Resources/config/routing/connect.xml"
+#    prefix:   /connect
+#
+#hwi_oauth_login:
+#    resource: "@HWIOAuthBundle/Resources/config/routing/login.xml"
+#    prefix:   /login
+#
+#github_login:
+#    path: /login/check-github
 
 sports_betting_frontend:
     defaults: { _controller: SportsBettingBundle:Bet:frontend }
     path: /{url}
     requirements:
         url: ".*"
-
-###   HWIOAuthBundle   ###
-hwi_oauth_redirect:
-    resource: "@HWIOAuthBundle/Resources/config/routing/redirect.xml"
-    prefix:   /connect
-
-hwi_oauth_connect:
-    resource: "@HWIOAuthBundle/Resources/config/routing/connect.xml"
-    prefix:   /connect
-
-hwi_oauth_login:
-    resource: "@HWIOAuthBundle/Resources/config/routing/login.xml"
-    prefix:   /login

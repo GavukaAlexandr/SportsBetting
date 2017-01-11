@@ -2,70 +2,84 @@
 
 namespace Andersen\SportsBettingBundle\Entity;
 
+use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraint as Assert;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * User
- *
- * @ORM\Table(name="user")
- * @ORM\Entity(repositoryClass="Andersen\SportsBettingBundle\Repository\UserRepository")
+ * @ORM\Entity
+ * @ORM\Table(name="fos_user")
  */
-class User
+Class User extends BaseUser
 {
     /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
+     * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
 
+//    overriding FOS User Bundle Form registration (enter hea you custom fields)
     /**
-     * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $name;
+    protected $name;
 
     /**
      * @var int
      *
      * @ORM\Column(name="money", type="integer")
      */
-    private $money;
+    protected $money = 0;
 
     /**
      * One User has many Bets.
      * @ORM\OneToMany(targetEntity="Andersen\SportsBettingBundle\Entity\Bet", mappedBy="user")
      */
-    private $bets;
+    protected $bets;
 
-    /**
-     * @return mixed
-     */
-    public function getBets()
+
+    public function __construct()
     {
-        return $this->bets;
+        parent::__construct();
+        $this->bets = new ArrayCollection();
+    }
+
+    public function setMoney($money)
+    {
+        $this->money = $money;
+
+        return $this;
+    }
+
+    public function getMoney()
+    {
+        return $this->money;
     }
 
     /**
-     * @param mixed $bets
-     */
-    public function setBets($bets)
-    {
-        $this->bets = $bets;
-    }
-
-
-    /**
-     * Get id
+     * Add bet
      *
-     * @return int
+     * @param \Andersen\SportsBettingBundle\Entity\Bet $bet
+     *
+     * @return User
      */
-    public function getId()
+    public function addBet(\Andersen\SportsBettingBundle\Entity\Bet $bet)
     {
-        return $this->id;
+        $this->bets[] = $bet;
+
+        return $this;
+    }
+
+    /**
+     * Remove bet
+     *
+     * @param \Andersen\SportsBettingBundle\Entity\Bet $bet
+     */
+    public function removeBet(\Andersen\SportsBettingBundle\Entity\Bet $bet)
+    {
+        $this->bets->removeElement($bet);
     }
 
     /**
@@ -93,57 +107,12 @@ class User
     }
 
     /**
-     * Set money
+     * Get bets
      *
-     * @param integer $money
-     *
-     * @return User
+     * @return \Doctrine\Common\Collections\Collection
      */
-    public function setMoney($money)
+    public function getBets()
     {
-        $this->money = $money;
-
-        return $this;
-    }
-
-    /**
-     * Get money
-     *
-     * @return int
-     */
-    public function getMoney()
-    {
-        return $this->money;
-    }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->bets = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-
-    /**
-     * Add bet
-     *
-     * @param \Andersen\SportsBettingBundle\Entity\Bet $bet
-     *
-     * @return User
-     */
-    public function addBet(\Andersen\SportsBettingBundle\Entity\Bet $bet)
-    {
-        $this->bets[] = $bet;
-
-        return $this;
-    }
-
-    /**
-     * Remove bet
-     *
-     * @param \Andersen\SportsBettingBundle\Entity\Bet $bet
-     */
-    public function removeBet(\Andersen\SportsBettingBundle\Entity\Bet $bet)
-    {
-        $this->bets->removeElement($bet);
+        return $this->bets;
     }
 }
