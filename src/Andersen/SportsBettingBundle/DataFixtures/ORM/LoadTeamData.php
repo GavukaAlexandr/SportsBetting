@@ -45,6 +45,7 @@ class LoadTeamData extends AbstractFixture implements OrderedFixtureInterface
             $teamType->setName($value);
             $teamType->setSport($this->getReference("sport-team {$key2}"));
 
+            $this->setReference("teams-games {$key}", $teamType);
             $this->setReference("team-bets {$key}", $teamType);
             
             $manager->persist($teamType);

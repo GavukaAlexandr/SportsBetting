@@ -134,6 +134,7 @@ class Team
     public function __construct()
     {
         $this->games = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->bets = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -146,6 +147,12 @@ class Team
     public function addGame(\Andersen\SportsBettingBundle\Entity\Game $game)
     {
         $this->games[] = $game;
+
+        if (!$this->games->contains($game))
+        {
+            $this->games[] = $game;
+            $game->addTeam($this);
+        }
 
         return $this;
     }

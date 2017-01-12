@@ -29,14 +29,20 @@ class LoadGameData extends AbstractFixture implements OrderedFixtureInterface
         foreach ($games as $key => $name)
         {
             $key2 = rand(1, $countSports-1);
+            $key3 = rand(1, $countTeams-1);
 
             $gameType = new Game();
             $gameType->setName($name);
 //            $gameType->setTeamWinner('');
             $gameType->setSport($this->getReference("sport-team {$key2}"));
+            $gameType->setTeams($this->getReference("teams-games {$key3}"));
+
+//            $lala = $this->getReference("teams-games {$key3}");
+
+//          var_dump($lala); exit();
 
             $this->setReference("games-bets {$key}", $gameType);
-//var_dump($key);
+
             $manager->persist($gameType);
         }
         $manager->flush();

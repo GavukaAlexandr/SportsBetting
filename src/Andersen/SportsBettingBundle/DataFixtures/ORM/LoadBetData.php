@@ -18,7 +18,7 @@ class LoadBetData extends AbstractFixture implements OrderedFixtureInterface
 
 
 
-        for ($i = 1; $i <=10000; $i++)
+        for ($i = 1; $i <=100; $i++)
         {
             $countSports = rand(1, count($sports)-2);
             $countTeams = rand(1, count($teams)-2);

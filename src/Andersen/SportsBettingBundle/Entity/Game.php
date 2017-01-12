@@ -157,6 +157,8 @@ class Game implements \JsonSerializable
     public function __construct()
     {
         $this->teams = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->bets = new \Doctrine\Common\Collections\ArrayCollection();
+
     }
 
     /**
@@ -168,7 +170,11 @@ class Game implements \JsonSerializable
      */
     public function addTeam(\Andersen\SportsBettingBundle\Entity\Team $team)
     {
-        $this->teams[] = $team;
+        if (!$this->teams->contains($team))
+        {
+            $this->teams[] = $team;
+            $team->addGame($this);
+        }
 
         return $this;
     }
