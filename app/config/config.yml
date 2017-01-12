@@ -75,9 +75,11 @@ fos_user:
     user_class: Andersen\SportsBettingBundle\Entity\User
 
 #hwi_oauth:
-#    firewall_names: [secured_area]
+#    firewall_names: [main]
+#    connect:
+#        account_connector: app.provider.oauth
 #    resource_owners:
-#        any_name:
+#        github:
 #            type:                github
 #            client_id:           60942d95a2e0eb61c0f4
 #            client_secret:       801b4939c1a0c2c2896299b494463691ffd6059a
