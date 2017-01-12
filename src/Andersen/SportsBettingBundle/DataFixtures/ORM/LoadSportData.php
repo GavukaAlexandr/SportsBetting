@@ -38,10 +38,11 @@ class LoadSportData extends AbstractFixture implements OrderedFixtureInterface
             $sportType->setSportType($value);
 
             $this->setReference("sport-team {$key}", $sportType);
+            $this->setReference("sport-bets {$key}", $sportType);
 
             $manager->persist($sportType);
-            $manager->flush();
         }
+        $manager->flush();
 
     }
 

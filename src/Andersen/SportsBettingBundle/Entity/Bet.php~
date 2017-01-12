@@ -22,20 +22,20 @@ class Bet implements \JsonSerializable
     private $id;
 
     /**
-     * One Bet have One Sport
-     * @ORM\OneToOne(targetEntity="Andersen\SportsBettingBundle\Entity\Sport")
+     * Many bets have one Sport
+     * @ORM\ManyToOne(targetEntity="Andersen\SportsBettingBundle\Entity\Sport", inversedBy="bets")
      */
     private $sport;
 
     /**
-     * One Bet have One Team
-     * @ORM\OneToOne(targetEntity="Andersen\SportsBettingBundle\Entity\Team")
+     * Many bets have one Team
+     * @ORM\ManyToOne(targetEntity="Andersen\SportsBettingBundle\Entity\Team", inversedBy="bets")
      */
     private $team;
 
     /**
-     * One Bet have One Game.
-     * @ORM\OneToOne(targetEntity="Andersen\SportsBettingBundle\Entity\Game")
+     * Many Bet have One Game.
+     * @ORM\ManyToOne(targetEntity="Andersen\SportsBettingBundle\Entity\Game", inversedBy="bets")
      */
     private $game;
 

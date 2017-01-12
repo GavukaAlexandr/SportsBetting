@@ -12,26 +12,34 @@ class LoadGameData extends AbstractFixture implements OrderedFixtureInterface
 {
     public function load(ObjectManager $manager)
     {
+        $sports = $manager->getRepository('SportsBettingBundle:Sport')->findAll();
+        $countSports = count($sports);
         $teams = $manager->getRepository('SportsBettingBundle:Team')->findAll();
-        $count = count($teams);
-        $countFor = $count / 2;
-        $countFor = floor($countFor);
+        $countTeams = count($teams);
+        $countFor = 150;
         $games = [];
 
+
         for ($i = 1; $i <= $countFor; $i++){
-            $games[$i] = $teams[rand(0, $count-1)]->getName(). " - " . $teams[rand(0, $count-1)]->getName();
+            $games[$i] = $teams[rand(0, $countTeams-1)]->getName(). " - " . $teams[rand(0, $countTeams-1)]->getName();
         }
+
+//        var_dump($games); exit();
 
         foreach ($games as $key => $name)
         {
+            $key2 = rand(1, $countSports-1);
+
             $gameType = new Game();
             $gameType->setName($name);
 //            $gameType->setTeamWinner('');
-            $gameType->setSport($this->getReference("sport-team {$key}"));
+            $gameType->setSport($this->getReference("sport-team {$key2}"));
 
+            $this->setReference("games-bets {$key}", $gameType);
+//var_dump($key);
             $manager->persist($gameType);
-            $manager->flush();
         }
+        $manager->flush();
     }
 
     public function getOrder()

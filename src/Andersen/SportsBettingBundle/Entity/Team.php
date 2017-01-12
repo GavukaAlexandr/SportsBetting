@@ -40,6 +40,12 @@ class Team
      */
     private $games;
 
+    /**
+     * One Team has many Bets.
+     * @ORM\OneToMany(targetEntity="Andersen\SportsBettingBundle\Entity\Bet", mappedBy="team")
+     */
+    protected $bets;
+
 
     /**
      * Get id
@@ -152,5 +158,39 @@ class Team
     public function removeGame(\Andersen\SportsBettingBundle\Entity\Game $game)
     {
         $this->games->removeElement($game);
+    }
+
+    /**
+     * Add bet
+     *
+     * @param \Andersen\SportsBettingBundle\Entity\Bet $bet
+     *
+     * @return Team
+     */
+    public function addBet(\Andersen\SportsBettingBundle\Entity\Bet $bet)
+    {
+        $this->bets[] = $bet;
+
+        return $this;
+    }
+
+    /**
+     * Remove bet
+     *
+     * @param \Andersen\SportsBettingBundle\Entity\Bet $bet
+     */
+    public function removeBet(\Andersen\SportsBettingBundle\Entity\Bet $bet)
+    {
+        $this->bets->removeElement($bet);
+    }
+
+    /**
+     * Get bets
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getBets()
+    {
+        return $this->bets;
     }
 }

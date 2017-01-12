@@ -43,6 +43,12 @@ class Sport implements \JsonSerializable
     private $games;
 
     /**
+     * One Sport has many Bets.
+     * @ORM\OneToMany(targetEntity="Andersen\SportsBettingBundle\Entity\Bet", mappedBy="sport")
+     */
+    protected $bets;
+
+    /**
      * @return mixed
      */
     public function getGames()
@@ -188,5 +194,39 @@ class Sport implements \JsonSerializable
     public function removeGame(\Andersen\SportsBettingBundle\Entity\Game $game)
     {
         $this->games->removeElement($game);
+    }
+
+    /**
+     * Add bet
+     *
+     * @param \Andersen\SportsBettingBundle\Entity\Bet $bet
+     *
+     * @return Sport
+     */
+    public function addBet(\Andersen\SportsBettingBundle\Entity\Bet $bet)
+    {
+        $this->bets[] = $bet;
+
+        return $this;
+    }
+
+    /**
+     * Remove bet
+     *
+     * @param \Andersen\SportsBettingBundle\Entity\Bet $bet
+     */
+    public function removeBet(\Andersen\SportsBettingBundle\Entity\Bet $bet)
+    {
+        $this->bets->removeElement($bet);
+    }
+
+    /**
+     * Get bets
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getBets()
+    {
+        return $this->bets;
     }
 }
