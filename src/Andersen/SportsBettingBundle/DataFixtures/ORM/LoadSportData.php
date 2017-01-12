@@ -37,7 +37,7 @@ class LoadSportData extends AbstractFixture implements OrderedFixtureInterface
             $sportType = new Sport();
             $sportType->setSportType($value);
 
-            $this->setReference('sport-team_', $sportType);
+            $this->setReference("sport-team {$key}", $sportType);
 
             $manager->persist($sportType);
             $manager->flush();
@@ -47,6 +47,7 @@ class LoadSportData extends AbstractFixture implements OrderedFixtureInterface
 
     public function getOrder()
     {
+        return 0;
         // TODO: Implement getOrder() method.
     }
 }

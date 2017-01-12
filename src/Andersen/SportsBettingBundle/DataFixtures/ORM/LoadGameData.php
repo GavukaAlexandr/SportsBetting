@@ -1,6 +1,7 @@
 <?php
 namespace Andersen\SportsBettingBundle\DataFixtures\ORM;
 
+use Andersen\SportsBettingBundle\Entity\Team;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\DataFixtures\FixtureInterface;
@@ -11,24 +12,23 @@ class LoadGameData extends AbstractFixture implements OrderedFixtureInterface
 {
     public function load(ObjectManager $manager)
     {
-        $game = [
-            ["Game 1", "Team 1"],
-            ["Game 2", "Team 2"],
-            ["Game 3", "Team 3"],
-            ["Game 4", "Team 4"],
-            ["Game 5", "Team 5"],
-            ["Game 6", "Team 6"],
-            ["Game 7", "Team 7"],
-            ["Game 8", "Team 8"],
-            ["Game 9", "Team 9"],
-            ["Game 10", "Team 10"],
-        ];
+        $teams = $manager->getRepository('SportsBettingBundle:Team')->findAll();
+        $count = count($teams);
+        $countFor = $count / 2;
+        $countFor = floor($countFor);
+        $games = [];
 
-        foreach ($game as list($games, $teams))
+        for ($i = 1; $i <= $countFor; $i++){
+            $games[$i] = $teams[rand(0, $count-1)]->getName(). " - " . $teams[rand(0, $count-1)]->getName();
+        }
+
+        foreach ($games as $key => $name)
         {
             $gameType = new Game();
-            $gameType->setName($games);
-            $gameType->setTeamWinner($teams);
+            $gameType->setName($name);
+//            $gameType->setTeamWinner('');
+            $gameType->setSport($this->getReference("sport-team {$key}"));
+
             $manager->persist($gameType);
             $manager->flush();
         }
@@ -36,6 +36,7 @@ class LoadGameData extends AbstractFixture implements OrderedFixtureInterface
 
     public function getOrder()
     {
+        return 2;
         // TODO: Implement getOrder() method.
     }
 }

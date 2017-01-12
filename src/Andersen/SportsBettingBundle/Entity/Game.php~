@@ -37,7 +37,7 @@ class Game implements \JsonSerializable
     /**
      * @var string
      *
-     * @ORM\Column(name="teamWinner", type="string", length=255)
+     * @ORM\Column(name="teamWinner", type="string", length=255, nullable=true)
      */
     private $teamWinner;
 

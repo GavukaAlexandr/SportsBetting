@@ -31,19 +31,26 @@ class LoadTeamData extends AbstractFixture implements OrderedFixtureInterface
             "D.C. United",
         ];
 
-        foreach ($teamName as &$value)
+        foreach ($teamName as $key => $value)
         {
+            if ($key > 4)
+            {
+                $key = $key - rand(1, 3);
+            }
+
             $teamType = new Team();
             $teamType->setName($value);
-            $teamType->setSport($this->getReference('sport-team'));
-
+            $teamType->setSport($this->getReference("sport-team {$key}"));
+            
             $manager->persist($teamType);
-            $manager->flush();
         }
+
+        $manager->flush();
     }
 
     public function getOrder()
     {
+        return 1;
         // TODO: Implement getOrder() method.
     }
 }
