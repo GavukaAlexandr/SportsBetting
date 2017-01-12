@@ -147,6 +147,12 @@ class Team
     {
         $this->games[] = $game;
 
+        if (!$this->games->contains($game))
+        {
+            $this->games[] = $game;
+            $game->addTeam($this);
+        }
+
         return $this;
     }
 
