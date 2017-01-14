@@ -167,7 +167,8 @@ class Sport implements \JsonSerializable
     {
         return [
             'SportType' => $this->getSportType(),
-            'games' => $this->getGames()
+//            'games' => $this->getGames()
+            'id' => $this->getId(),
         ];
         // TODO: Implement jsonSerialize() method.
     }

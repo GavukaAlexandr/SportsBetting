@@ -1,0 +1,7 @@
+<div class="list-group" ui-view>
+    <a class="list-group-item" ng-repeat="item in sports"
+       ui-sref-active="active"
+       ui-sref="home.sportgames({ sportId: item.id })"
+       href=""
+    >{[{ item.SportType }]}</a>
+</div>

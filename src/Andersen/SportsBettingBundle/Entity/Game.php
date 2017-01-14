@@ -202,7 +202,7 @@ class Game implements \JsonSerializable
             'name' => $this->getName(),
 //            'teams' => $this->getTeams(),
 //            'teamWinner' => $this->getTeamWinner(),
-            'sport' => $this->getSport()
+//            'sport' => $this->getSport()
         ];
         // TODO: Implement jsonSerialize() method.
     }

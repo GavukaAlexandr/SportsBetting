@@ -36,11 +36,9 @@ class LoadGameData extends AbstractFixture implements OrderedFixtureInterface
             $gameType->setName($name);
 //            $gameType->setTeamWinner('');
             $gameType->setSport($this->getReference("sport-team {$key2}"));
-            $gameType->setTeams(new ArrayCollection($this->getReference("teams-games {$key3}")));
 
-//            $lala = $this->getReference("teams-games {$key3}");
-
-//          var_dump($lala); exit();
+            $gameType->setTeams(new ArrayCollection([$this->getReference("teams-games {$key3}")]));
+//            $this->setReference("games-teams {$key3}", $gameType);
 
             $this->setReference("games-bets {$key}", $gameType);
 
