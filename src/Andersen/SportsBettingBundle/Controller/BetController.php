@@ -55,7 +55,7 @@ class BetController extends Controller
             ->getDoctrine()
             ->getManager()
             ->getRepository('SportsBettingBundle:Bet')
-            ->findAllSportGameBets($sportId, $gameId);
+            ->findSportGameBets($sportId, $gameId);
         $response = new JsonResponse($sportGameBets);
         return $response;
     }

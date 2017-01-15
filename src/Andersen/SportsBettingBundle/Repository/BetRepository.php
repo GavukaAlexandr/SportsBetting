@@ -21,7 +21,7 @@ class BetRepository extends \Doctrine\ORM\EntityRepository
 
     }
 
-    public function findAllSportGameBets($sportId, $gameId)
+    public function findSportGameBets($sportId, $gameId)
     {
         $sportGameBets = $this
             ->getEntityManager()

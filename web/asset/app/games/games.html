@@ -1,3 +1,8 @@
-<div class="list-group" ui-view="games">
-    <a class="list-group-item" ng-repeat="game in sportGames">{[{ game.name }]}</a>
+<div class="col-lg-10 external">
+    <main class="col-lg-4 content-container">
+        <div class="list-group">
+            <h3>Games by type of sport</h3>
+            <a class="list-group-item" ng-repeat="game in sportGames">{[{ game.name }]}</a>
+        </div>
+    </main>
 </div>

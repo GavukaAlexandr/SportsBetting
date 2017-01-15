@@ -7,13 +7,26 @@ routerApp.config(function($stateProvider, $urlRouterProvider) {
     $stateProvider
         .state('home', {
             url: '/',
-            // templateUrl: 'app_dev.php',
-            controller: 'HomeCtrl'
+            views: {
+                'header': {
+                    templateUrl: 'asset/app/partials/header/header.html'
+                },
+                'left_aside': {
+                    templateUrl: 'asset/app/partials/left_aside/left_aside.html',
+                    controller: 'LeftAside'
+                },
+                'content': {
+                    templateUrl: 'asset/app/partials/content/content.html'
+                },
+                'footer': {
+                    templateUrl: 'asset/app/partials/footer/footer.html'
+                }
+            }
         })
         .state('home.sportgames', {
             url: 'sport/{sportId}/games',
             views: {
-                'games': {
+                'content@': {
                     templateUrl: 'asset/app/games/games.html',
                     controller: 'SportGamesCtrl'
                 }
@@ -34,7 +47,7 @@ routerApp.config(function($stateProvider, $urlRouterProvider) {
         // });
 });
 
-routerApp.controller('HomeCtrl', ['$scope', '$http', function ($scope, $http) {
+routerApp.controller('LeftAside', ['$scope', '$http', function ($scope, $http) {
 
     $scope.sports = [];
     $http.get('/api/sports').then(function(res) {

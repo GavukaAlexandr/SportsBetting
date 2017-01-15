@@ -6,14 +6,17 @@ sports_betting_sports_games:
     path:     /sports/{sportId}/games
     defaults: { _controller: SportsBettingBundle:Bet:getSportGames }
 
+sports_betting_list_bets_for_game:
+    path: /sports/{sportId}/game/{gameId}/bets
+    defaults: { _controller: SportsBettingBundle:Bet:getSportGameBets }
+
+
 sports_betting_sports_bets:
     path:     /sports/{sportId}/bets
     defaults: { _controller: SportsBettingBundle:Bet:getSportBets }
 
 
-sports_betting_list_bets_for_game:
-    path: /sports/{sportId}/game/{gameId}/bets
-    defaults: { _controller: SportsBettingBundle:Bet:getSportGameBets }
+
 
 
 
