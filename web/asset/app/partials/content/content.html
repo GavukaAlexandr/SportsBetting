@@ -6,7 +6,29 @@
         </div>
         <div class="col-lg-8 list-group">
             <h3>All Bets</h3>
-            <a class="list-group-item" ng-repeat="bet in allBets">{[{ bet.name }]}</a>
+            <table class="table table-hover" >
+                <thead>
+                <tr>
+                    <th>User</th>
+                    <th>Sport</th>
+                    <th>Game</th>
+                    <th>Bet in team</th>
+                    <th>Factor victiry</th>
+                    <th>Money</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="bet in allBets">
+                    <td>{[{ bet.user.name }]}</td>
+                    <td>{[{ bet.sport.SportType }]}</td>
+                    <td>{[{ bet.game.name }]}</td>
+                    <td>{[{ bet.team.name }]}</td>
+                    <td>{[{ bet.BetValue }]}</td>
+                    <td>{[{ bet.money }]}</td>
+                </tr>
+                </tbody>
+            </table>
+
         </div>
     </main>
 </div>

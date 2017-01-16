@@ -74,6 +74,14 @@ class Bet implements \JsonSerializable
     private $money;
 
     /**
+     * @var $coefficients[]
+     *
+     * One Bet have Many Coefficients
+     * @ORM\OneToMany(targetEntity="Andersen\SportsBettingBundle\Entity\Coefficient", mappedBy="bet")
+     */
+    private $coefficients;
+
+    /**
      * @return mixed
      */
     public function getUser()
@@ -250,11 +258,52 @@ class Bet implements \JsonSerializable
             'user' => $this->getUser(),
             'sport' => $this->getSport(),
             'game' => $this->getGame(),
+            'team' => $this->getTeam(),
             'BetValue' => $this->getBetsValue(),
             'factorVictory' => $this->getFactorVictory(),
             'money' => $this->getMoney(),
-            'team_1_factor' => $this->getFactorVictory(),
         ];
         // TODO: Implement jsonSerialize() method.
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->coefficients = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add coefficient
+     *
+     * @param \Andersen\SportsBettingBundle\Entity\Coefficient $coefficient
+     *
+     * @return Bet
+     */
+    public function addCoefficient(\Andersen\SportsBettingBundle\Entity\Coefficient $coefficient)
+    {
+        $this->coefficients[] = $coefficient;
+
+        return $this;
+    }
+
+    /**
+     * Remove coefficient
+     *
+     * @param \Andersen\SportsBettingBundle\Entity\Coefficient $coefficient
+     */
+    public function removeCoefficient(\Andersen\SportsBettingBundle\Entity\Coefficient $coefficient)
+    {
+        $this->coefficients->removeElement($coefficient);
+    }
+
+    /**
+     * Get coefficients
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCoefficients()
+    {
+        return $this->coefficients;
     }
 }

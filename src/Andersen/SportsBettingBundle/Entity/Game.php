@@ -51,7 +51,15 @@ class Game implements \JsonSerializable
      * One Game has many Bets.
      * @ORM\OneToMany(targetEntity="Andersen\SportsBettingBundle\Entity\Bet", mappedBy="game")
      */
-    protected $bets;
+    private $bets;
+
+    /**
+     * @var $coefficients[]
+     *
+     * One Game have Many Coefficients
+     * @ORM\OneToMany(targetEntity="Andersen\SportsBettingBundle\Entity\Coefficient", mappedBy="game")
+     */
+    private $coefficients;
 
     /**
      * @return mixed
@@ -239,5 +247,39 @@ class Game implements \JsonSerializable
     public function getBets()
     {
         return $this->bets;
+    }
+
+    /**
+     * Add coefficient
+     *
+     * @param \Andersen\SportsBettingBundle\Entity\Coefficient $coefficient
+     *
+     * @return Game
+     */
+    public function addCoefficient(\Andersen\SportsBettingBundle\Entity\Coefficient $coefficient)
+    {
+        $this->coefficients[] = $coefficient;
+
+        return $this;
+    }
+
+    /**
+     * Remove coefficient
+     *
+     * @param \Andersen\SportsBettingBundle\Entity\Coefficient $coefficient
+     */
+    public function removeCoefficient(\Andersen\SportsBettingBundle\Entity\Coefficient $coefficient)
+    {
+        $this->coefficients->removeElement($coefficient);
+    }
+
+    /**
+     * Get coefficients
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCoefficients()
+    {
+        return $this->coefficients;
     }
 }

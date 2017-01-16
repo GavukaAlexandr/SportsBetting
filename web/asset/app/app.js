@@ -56,7 +56,7 @@ routerApp.controller('MainContentCtrl', ['$scope', '$http', function ($scope, $h
     });
 
     $scope.allBets =[];
-    $http.get('/api/sports/games').then(function(res) {
+    $http.get('/api/sports/bets').then(function(res) {
         $scope.allBets = res.data
     });
 }]);

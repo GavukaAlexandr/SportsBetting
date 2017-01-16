@@ -11,7 +11,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @ORM\Entity
  * @ORM\Table(name="fos_user")
  */
-Class User extends BaseUser
+Class User extends BaseUser implements \JsonSerializable
 {
     /**
      * @ORM\Id
@@ -114,5 +114,20 @@ Class User extends BaseUser
     public function getBets()
     {
         return $this->bets;
+    }
+
+    /**
+     * Specify data which should be serialized to JSON
+     * @link http://php.net/manual/en/jsonserializable.jsonserialize.php
+     * @return mixed data which can be serialized by <b>json_encode</b>,
+     * which is a value of any type other than a resource.
+     * @since 5.4.0
+     */
+    function jsonSerialize()
+    {
+        return [
+            'name' => $this->getName(),
+        ];
+        // TODO: Implement jsonSerialize() method.
     }
 }
