@@ -1,6 +1,12 @@
 <div class="col-lg-10 external">
     <main class="col-lg-12 content-container">
-        <h3>Bets</h3>
-        <h1>CONTENT - BETS - RESULTS</h1>
+        <div class="col-lg-4 list-group">
+            <h3>All Games</h3>
+            <a class="list-group-item" ng-repeat="game in allGames">{[{ game.name }]}</a>
+        </div>
+        <div class="col-lg-8 list-group">
+            <h3>All Bets</h3>
+            <a class="list-group-item" ng-repeat="bet in allBets">{[{ bet.name }]}</a>
+        </div>
     </main>
 </div>

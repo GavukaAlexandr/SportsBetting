@@ -247,6 +247,11 @@ class Bet implements \JsonSerializable
     function jsonSerialize()
     {
         return [
+            'user' => $this->getUser(),
+            'sport' => $this->getSport(),
+            'game' => $this->getGame(),
+            'BetValue' => $this->getBetsValue(),
+            'factorVictory' => $this->getFactorVictory(),
             'money' => $this->getMoney(),
             'team_1_factor' => $this->getFactorVictory(),
         ];

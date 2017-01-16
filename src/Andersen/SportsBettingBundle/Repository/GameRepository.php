@@ -19,25 +19,8 @@ class GameRepository extends \Doctrine\ORM\EntityRepository
             ->from('SportsBettingBundle:Game', 'g')
             ->leftJoin('g.sport', 's')
             ->where("s.id = :sportId")
-        ->setParameter('sportId', $sportId);
+            ->setParameter('sportId', $sportId);
         $query = $gamesFromSportId->getQuery()->getResult();
         return $query;
-
-
-//        $allGames = $this->getEntityManager()->getRepository("SportsBettingBundle:Game");
-//        $query = $allGames->createQueryBuilder('game')
-//            ->select('g')
-//            ->from('SportsBettingBundle:Game', 'g')
-//            ->where('game.sport = :sportId')
-//        ->setParameter('sportId', $gameId);
-//        return $query->getQuery()->getResult();
     }
-
-
-//$allBets = $this->getEntityManager()->getRepository("SportsBettingBundle:Bet");
-//$query = $allBets->createQueryBuilder('bet')
-//->where('bet.sport > :sport')
-//->setParameter('sport', $sportId)
-//->getQuery();
-//return $query->getResult();
 }

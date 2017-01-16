@@ -13,10 +13,11 @@ routerApp.config(function($stateProvider, $urlRouterProvider) {
                 },
                 'left_aside': {
                     templateUrl: 'asset/app/partials/left_aside/left_aside.html',
-                    controller: 'LeftAside'
+                    controller: 'LeftAsideCtrl'
                 },
                 'content': {
-                    templateUrl: 'asset/app/partials/content/content.html'
+                    templateUrl: 'asset/app/partials/content/content.html',
+                    controller: 'MainContentCtrl'
                 },
                 'footer': {
                     templateUrl: 'asset/app/partials/footer/footer.html'
@@ -32,63 +33,30 @@ routerApp.config(function($stateProvider, $urlRouterProvider) {
                 }
             }
         });
-
-        // ABOUT PAGE AND MULTIPLE NAMED VIEWS =================================
-        // .state('about', {
-        //     url: '/about',
-        //     views: {
-        //         '': { templateUrl: 'partial-about.html' },
-        //         'columnOne@about': { template: 'Look I am a column!' },
-        //         'columnTwo@about': {
-        //             templateUrl: 'table-data.html',
-        //             controller: 'scotchController'
-        //         }
-        //     }
-        // });
 });
 
-routerApp.controller('LeftAside', ['$scope', '$http', function ($scope, $http) {
-
+routerApp.controller('LeftAsideCtrl', ['$scope', '$http', function ($scope, $http) {
     $scope.sports = [];
     $http.get('/api/sports').then(function(res) {
         $scope.sports = res.data;
     });
-
-    // $scope.sportGames = [];
-    // $http.get('/api/sports/:sportId/games').then(function(res) {
-    //     $scope.sportGames = res.data
-    // });
 }]);
 
 routerApp.controller('SportGamesCtrl', ['$scope', '$http', '$stateParams', function ($scope, $http, $stateParams) {
-
     $scope.sportGames = [];
     $http.get('/api/sports/' +$stateParams.sportId+ '/games').then(function(res) {
         $scope.sportGames = res.data
     });
 }]);
 
+routerApp.controller('MainContentCtrl', ['$scope', '$http', function ($scope, $http) {
+    $scope.allGames = [];
+    $http.get('/api/sports/games').then(function(res) {
+        $scope.allGames = res.data
+    });
 
-
-
-
-
-
-
-
-// var myApp = angular.module("myApp", []).config(function($interpolateProvider){
-//     $interpolateProvider.startSymbol("{[{").endSymbol("}]}");
-// });
-//
-// myApp.controller('MainCtrl', ['$scope', '$http', function ($scope, $http) {
-//
-//     $scope.sports = [];
-//     $http.get('/api/sports').then(function(res) {
-//         $scope.sports = res.data;
-//     });
-//
-//     $scope.sportGames = [];
-//     $http.get('/api/sports/game/game').then(function(res) {
-//         $scope.sportGames = res.data
-//     });
-// }]);
+    $scope.allBets =[];
+    $http.get('/api/sports/games').then(function(res) {
+        $scope.allBets = res.data
+    });
+}]);
