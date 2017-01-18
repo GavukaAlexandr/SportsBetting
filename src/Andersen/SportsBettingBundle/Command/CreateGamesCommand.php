@@ -56,11 +56,11 @@ class CreateGamesCommand extends Command
 
         foreach ($sportsArray as $sport) {
 
-            $teams = $this->em->getRepository('SportsBettingBundle:Team')->findGamesOfSportType($sport->getId());
+            $teams = $this->em->getRepository('SportsBettingBundle:Team')->findGamesOfSportType($sport['id']);
             $countTeams = count($teams);
 
-            for ($i = 1; $i < $numberGames; $i++) {
-
+            for ($i = 1; $i < $numberGames; $i++)
+            {
                 $name1 = $teams[rand(0, $countTeams)];
                 $name2 = $teams[rand(0, $countTeams)];
 

@@ -23,4 +23,21 @@ class TeamRepository extends \Doctrine\ORM\EntityRepository
         $query = $query->getQuery()->getResult();
         return $query;
     }
+
+    public function findSportGameTeams($sportId, $gameId)
+    {
+        $query = $this
+            ->getEntityManager()
+            ->createQueryBuilder()
+            ->select('t', 'g', 's')
+            ->from('SportsBettingBundle:Team', 't')
+            ->leftJoin('t.games', 'g')
+            ->leftJoin('t.sport', 's')
+            ->where('t.games = :gameId')
+            ->andWhere('t.sport = :sportId')
+            ->setParameter('gameId', $gameId)
+            ->setParameter('$sportId', $sportId);
+        $query = $query->getQuery()->getResult();
+        return$query;
+    }
 }

@@ -3,6 +3,8 @@
 namespace Andersen\SportsBettingBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+
 
 /**
  * Game
@@ -164,8 +166,9 @@ class Game implements \JsonSerializable
      */
     public function __construct()
     {
-        $this->teams = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->bets = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->teams = new ArrayCollection();
+        $this->bets = new ArrayCollection();
+        $this->coefficients = new ArrayCollection();
 
     }
 

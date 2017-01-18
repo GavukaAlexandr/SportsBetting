@@ -37,4 +37,12 @@ class BetRepository extends \Doctrine\ORM\EntityRepository
         $query = $sportGameBets->getQuery()->getResult();
         return $query;
     }
+
+//    public function createBet($sportId, $teamId, $gameId, $userId, $betValue, $coefficientValue, $money)
+//    {
+//        $query = $this
+//            ->getEntityManager()
+//            ->createQueryBuilder()
+//
+//    }
 }
