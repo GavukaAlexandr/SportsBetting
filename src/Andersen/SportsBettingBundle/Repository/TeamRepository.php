@@ -10,4 +10,17 @@ namespace Andersen\SportsBettingBundle\Repository;
  */
 class TeamRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function findGamesOfSportType($sportId)
+    {
+        $query = $this
+            ->getEntityManager()
+            ->createQueryBuilder()
+            ->select('t', 's')
+            ->from('SportsBettingBundle:Team', 't')
+            ->leftJoin('t.sport', 's')
+            ->where("s.id = :sportId")
+            ->setParameter('sportId', $sportId);
+        $query = $query->getQuery()->getResult();
+        return $query;
+    }
 }
