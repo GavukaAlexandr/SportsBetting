@@ -3,7 +3,6 @@ services:
 #        class: Andersen\SportsBettingBundle\Example
 #        arguments: ["@service_id", "plain_value", "%parameter%"]
 
-services:
     sports_betting.command.create_games:
         class: Andersen\SportsBettingBundle\Command\CreateGamesCommand
         arguments: ["@doctrine.orm.entity_manager"]

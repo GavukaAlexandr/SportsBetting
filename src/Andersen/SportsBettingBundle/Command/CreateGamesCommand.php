@@ -34,33 +34,35 @@ class CreateGamesCommand extends Command
             // the full command description shown when running the command with
             // the "--help" option
             ->setHelp("This command allows you to create games...")
-            ->addArgument('number', InputArgument::REQUIRED, 'how many games do you want?')
-
-
+            ->addArgument('numberGames', InputArgument::REQUIRED, 'how many games do you want?')
+            ->addArgument('numberSports', InputArgument::REQUIRED, 'how many sports type do you want? "1-17"')
         ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $number = $input->getArgument('number');
-        $output->writeln('Yes my Lord, now will create ' . $input->getArgument('number') . 'games for you');
+        $numberGames = intval($input->getArgument('numberGames'));
+        $numberSports = intval($input->getArgument('numberSports'));
+        $output->writeln('Yes my Lord, now will create ' . $numberGames . ' games for you ' . $numberSports . ' sports type');
 
         $sports = $this->em->getRepository('SportsBettingBundle:Sport')->findAll();
-//        $games = $this->em->getRepository('SportsBettingBundle:Game')->findAll();
+        $countSports = count($sports);
 
+        $sportsArray = [];
+        for ($i = 1; $i < $numberSports; $i++)
+        {
+            $sportsArray[] = $sports[rand(1, $countSports)];
+        }
 
-
-//        запрос команд по видові спорту
-
-        foreach ($sports as $sport) {
+        foreach ($sportsArray as $sport) {
 
             $teams = $this->em->getRepository('SportsBettingBundle:Team')->findGamesOfSportType($sport->getId());
-            $countTeams = count($teams) - 1;
+            $countTeams = count($teams);
 
-            for ($i = 1; $i < $number; $i++) {
+            for ($i = 1; $i < $numberGames; $i++) {
 
-                $name1 = $teams[rand(1, $countTeams)];
-                $name2 = $teams[rand(1, $countTeams)];
+                $name1 = $teams[rand(0, $countTeams)];
+                $name2 = $teams[rand(0, $countTeams)];
 
                 for ($i = $name1; $i == $name2;)
                 {
