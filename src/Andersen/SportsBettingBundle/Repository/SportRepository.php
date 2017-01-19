@@ -12,6 +12,13 @@ use Doctrine\ORM\EntityRepository;
  */
 class SportRepository extends EntityRepository
 {
+    /**
+     * @return \Andersen\SportsBettingBundle\Entity\Sport[]|array
+     *
+     * * /sports
+     *
+     * get all sports
+     */
     public function findAllSports()
     {
         return $this->getEntityManager()->getRepository("SportsBettingBundle:Sport")->findAll();

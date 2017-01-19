@@ -3,14 +3,14 @@
 namespace Andersen\SportsBettingBundle\Controller;
 
 use Andersen\SportsBettingBundle\Entity\Bet;
-use Andersen\SportsBettingBundle\Repository\SportRepository;
-use Andersen\SportsBettingBundle\SportsBettingBundle;
+//use Andersen\SportsBettingBundle\Repository\SportRepository;
+//use Andersen\SportsBettingBundle\SportsBettingBundle;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Andersen\SportsBettingBundle\Entity\Sport;
-use Symfony\Component\BrowserKit\Request;
-use Symfony\Component\BrowserKit\Response;
+//use Andersen\SportsBettingBundle\Entity\Sport;
+//use Symfony\Component\BrowserKit\Request;
+//use Symfony\Component\BrowserKit\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpKernel\Tests\Fixtures\Controller\NullableController;
+//use Symfony\Component\HttpKernel\Tests\Fixtures\Controller\NullableController;
 
 
 class BetController extends Controller
@@ -20,7 +20,7 @@ class BetController extends Controller
      *
      * /sports
      *
-     * get sports
+     * get all sports
      */
     public function getSportsAction()
     {
@@ -166,6 +166,8 @@ class BetController extends Controller
     }
 
     /**
+     * @param $userId
+     *
      * set money
      */
     public function setUserMoneyAction($userId)
@@ -176,9 +178,9 @@ class BetController extends Controller
     /**
      * @param \Symfony\Component\HttpFoundation\Request $request
      *
+     * /sports/game/{gameId}/team/{teamId}/bet
      *
-     *
-     * Create bet
+     * create bet
      */
     public function createBetAction(\Symfony\Component\HttpFoundation\Request $request)
     {

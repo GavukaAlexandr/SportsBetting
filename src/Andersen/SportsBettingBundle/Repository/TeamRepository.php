@@ -24,6 +24,15 @@ class TeamRepository extends \Doctrine\ORM\EntityRepository
         return $query;
     }
 
+    /**
+     * @param $sportId
+     * @param $gameId
+     * @return array|\Doctrine\ORM\QueryBuilder
+     *
+     * /sports/{sportId}/game/{gameId}/teams
+     *
+     * get teams of gameId and sportId
+     */
     public function findSportGameTeams($sportId, $gameId)
     {
         $query = $this

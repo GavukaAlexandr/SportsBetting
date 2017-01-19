@@ -10,6 +10,14 @@ namespace Andersen\SportsBettingBundle\Repository;
  */
 class GameRepository extends \Doctrine\ORM\EntityRepository
 {
+    /**
+     * @param $sportId
+     * @return array
+     *
+     * /sports/{sportId}/games
+     *
+     * get games of sport type
+     */
     public function findAllGamesOfSportType($sportId)
     {
         $gamesFromSportId = $this
