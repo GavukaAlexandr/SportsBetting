@@ -3,6 +3,8 @@
 namespace Andersen\SportsBettingBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+
 
 /**
  * Team
@@ -10,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="team")
  * @ORM\Entity(repositoryClass="Andersen\SportsBettingBundle\Repository\TeamRepository")
  */
-class Team
+class Team implements \JsonSerializable
 {
     /**
      * @var int
@@ -45,6 +47,14 @@ class Team
      * @ORM\OneToMany(targetEntity="Andersen\SportsBettingBundle\Entity\Bet", mappedBy="team")
      */
     protected $bets;
+
+    /**
+     * @var $coefficients[]
+     *
+     * One Team have Many Coefficients
+     * @ORM\OneToMany(targetEntity="Andersen\SportsBettingBundle\Entity\Coefficient", mappedBy="team")
+     */
+    private $coefficients;
 
 
     /**
@@ -133,8 +143,10 @@ class Team
      */
     public function __construct()
     {
-        $this->games = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->bets = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->games = new ArrayCollection();
+        $this->bets = new ArrayCollection();
+        $this->coefficients = new ArrayCollection();
+
     }
 
     /**
@@ -199,5 +211,54 @@ class Team
     public function getBets()
     {
         return $this->bets;
+    }
+
+    /**
+     * Specify data which should be serialized to JSON
+     * @link http://php.net/manual/en/jsonserializable.jsonserialize.php
+     * @return mixed data which can be serialized by <b>json_encode</b>,
+     * which is a value of any type other than a resource.
+     * @since 5.4.0
+     */
+    function jsonSerialize()
+    {
+        return [
+            'name' => $this->getName(),
+        ];
+        // TODO: Implement jsonSerialize() method.
+    }
+
+    /**
+     * Add coefficient
+     *
+     * @param \Andersen\SportsBettingBundle\Entity\Coefficient $coefficient
+     *
+     * @return Team
+     */
+    public function addCoefficient(\Andersen\SportsBettingBundle\Entity\Coefficient $coefficient)
+    {
+        $this->coefficients[] = $coefficient;
+
+        return $this;
+    }
+
+    /**
+     * Remove coefficient
+     *
+     * @param \Andersen\SportsBettingBundle\Entity\Coefficient $coefficient
+     */
+    public function removeCoefficient(\Andersen\SportsBettingBundle\Entity\Coefficient $coefficient)
+    {
+        $this->coefficients->removeElement($coefficient);
+    }
+
+    /**
+     * Get coefficients
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCoefficients()
+    {
+        return $this->coefficients;
     }
 }
