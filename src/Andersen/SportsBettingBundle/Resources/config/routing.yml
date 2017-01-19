@@ -1,6 +1,6 @@
 sports_betting_homepage:
     path:     /sports
-    defaults: { _controller: SportsBettingBundle:Bet:index }
+    defaults: { _controller: SportsBettingBundle:Bet:getSports }
 
 sports_betting_all_games:
     path: /sports/games
@@ -32,9 +32,11 @@ sports_betting_user_get_money:
 
 sports_betting_user_set_money:
     path: /user/{userId}/money/set
-    defaults: { _controller: SportsBettingBundle:Bet:getUserMoney }
+    defaults: { _controller: SportsBettingBundle:Bet:setUserMoney }
 
-
+sports_betting_create_bets:
+    path: /sports/game/{gameId}/team/{teamId}/bet
+    defaults: { _controller: SportsBettingBundle:Bet:createBet }
 
 
 

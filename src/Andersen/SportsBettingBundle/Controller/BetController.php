@@ -15,7 +15,14 @@ use Symfony\Component\HttpKernel\Tests\Fixtures\Controller\NullableController;
 
 class BetController extends Controller
 {
-    public function indexAction()
+    /**
+     * @return JsonResponse
+     *
+     * /sports
+     *
+     * get sports
+     */
+    public function getSportsAction()
     {
         $allSports = $this->getDoctrine()
             ->getManager()
@@ -25,11 +32,26 @@ class BetController extends Controller
         return $response;
     }
 
+    /**
+     * @return \Symfony\Component\HttpFoundation\Response
+     *
+     * /{url}
+     *
+     * get template for angular js
+     */
     public function frontendAction()
     {
         return $this->render('@SportsBetting/Bet/index.html.twig');
     }
 
+    /**
+     * @param $sportId
+     * @return JsonResponse4
+     *
+     * /sports/{sportId}/bets
+     *
+     * get bets of sport type
+     */
     public function getSportBetsAction($sportId)
     {
         $allBets = $this
@@ -41,6 +63,14 @@ class BetController extends Controller
         return $response;
     }
 
+    /**
+     * @param $sportId
+     * @return JsonResponse
+     *
+     * /sports/{sportId}/games
+     *
+     * get games of sport type
+     */
     public function getSportGamesAction($sportId)
     {
         $sportGame = $this
@@ -52,6 +82,15 @@ class BetController extends Controller
         return $response;
     }
 
+    /**
+     * @param $sportId
+     * @param $gameId
+     * @return JsonResponse
+     *
+     * /sports/{sportId}/game/{gameId}/bets
+     *
+     * get bets of gameId and sportId
+     */
     public function getSportGameBetsAction($sportId, $gameId)
     {
         $sportGameBets = $this
@@ -63,6 +102,13 @@ class BetController extends Controller
         return $response;
     }
 
+    /**
+     * @return JsonResponse
+     *
+     * /sports/games
+     *
+     * get all games
+     */
     public function getGamesAction()
     {
         $query = $this->getDoctrine()->getManager()->getRepository('SportsBettingBundle:Game')->findAll();
@@ -70,6 +116,13 @@ class BetController extends Controller
         return $response;
     }
 
+    /**
+     * @return JsonResponse
+     *
+     * /sports/bets
+     *
+     * get all bets
+     */
     public function getBetsAction()
     {
         $query = $this->getDoctrine()->getManager()->getRepository('SportsBettingBundle:Bet')->findAll();
@@ -77,6 +130,15 @@ class BetController extends Controller
         return $response;
     }
 
+    /**
+     * @param $sportId
+     * @param $gameId
+     * @return JsonResponse
+     *
+     * /sports/{sportId}/game/{gameId}/teams
+     *
+     * get teams of gameId and sportId
+     */
     public function getSportGameTeamsAction($sportId, $gameId)
     {
         $query = $this
@@ -88,6 +150,14 @@ class BetController extends Controller
         return $response;
     }
 
+    /**
+     * @param $userId
+     * @return JsonResponse
+     *
+     * /user/{userId}/money
+     *
+     * get(show) user money
+     */
     public function getUserMoneyAction($userId)
     {
         $query = $this->getDoctrine()->getRepository('SportsBettingBundle:User')->find($userId);
@@ -95,23 +165,32 @@ class BetController extends Controller
         return $response;
     }
 
+    /**
+     * set money
+     */
+    public function setUserMoneyAction($userId)
+    {
+
+    }
+
+    /**
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     *
+     *
+     *
+     * Create bet
+     */
     public function createBetAction(\Symfony\Component\HttpFoundation\Request $request)
     {
-        $sportId = $request->request->get('sport_id');
         $teamId = $request->request->get('team_id');
         $gameId = $request->request->get('game_id');
-        $userId = $request->request->get('user_id');
         $betValue = $request->request->get('bet_value');
-        $coefficientValue = $request->request->get('coefficient_value');
         $money = $request->request->get('money');
 
         $bet = new Bet();
-        $bet->setSport($sportId);
         $bet->setTeam($teamId);
         $bet->setGame($gameId);
-        $bet->setUser($userId);
         $bet->setBetsValue($betValue);
-//        bet->setCoefficient();
         $bet->setMoney($money);
 
     }
