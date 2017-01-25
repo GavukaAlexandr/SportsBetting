@@ -5,11 +5,14 @@ namespace Andersen\SportsBettingBundle\Controller;
 use Andersen\SportsBettingBundle\Entity\Bet;
 //use Andersen\SportsBettingBundle\Repository\SportRepository;
 //use Andersen\SportsBettingBundle\SportsBettingBundle;
+use Andersen\SportsBettingBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 //use Andersen\SportsBettingBundle\Entity\Sport;
 //use Symfony\Component\BrowserKit\Request;
 //use Symfony\Component\BrowserKit\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+
 //use Symfony\Component\HttpKernel\Tests\Fixtures\Controller\NullableController;
 
 
@@ -46,7 +49,7 @@ class BetController extends Controller
 
     /**
      * @param $sportId
-     * @return JsonResponse4
+     * @return JsonResponse
      *
      * /sports/{sportId}/bets
      *
@@ -196,4 +199,35 @@ class BetController extends Controller
         $bet->setMoney($money);
 
     }
+
+//    /**
+//     * @param Request $request
+//     *
+//     * /register
+//     *
+//     * register user
+//     */
+//    public function registerUserAction(Request $request)
+//    {
+//        $apiKey = $request->headers->get('apikey');
+//
+//        $userName = $request->request->get('name');
+//        $userEmail = $request->request->get('email');
+//        $userPassword = $request->request->get('password');
+//
+//
+//
+//        $checkExistenceUser = $this->getDoctrine()->getRepository("SportsBettingBundle:User")->findOneBy(['email' => $userEmail]);
+//
+//        if ($checkExistenceUser == NULL) {
+//            $registerUser = new User();
+//            $registerUser->setName($userName);
+//            $registerUser->setPassword($userPassword);
+//            $registerUser->setEmail($userEmail);
+//
+//            $em = $this->getDoctrine()->getManager();
+//            $em->persist($registerUser);
+//            $em->flush();
+//        }
+//    }
 }

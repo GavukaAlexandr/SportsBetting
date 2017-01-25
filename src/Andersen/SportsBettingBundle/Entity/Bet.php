@@ -56,20 +56,6 @@ class Bet implements \JsonSerializable
     /**
      * @var int
      *
-     * @ORM\Column(name="factorVictory", type="integer")
-     */
-    private $factorVictory;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="factorDraw", type="integer")
-     */
-    private $factorDraw;
-
-    /**
-     * @var int
-     *
      * @ORM\Column(name="money", type="integer")
      */
     private $money;
@@ -197,39 +183,6 @@ class Bet implements \JsonSerializable
         return $this->betsValue;
     }
 
-
-    /**
-     * @return int
-     */
-    public function getFactorVictory(): int
-    {
-        return $this->factorVictory;
-    }
-
-    /**
-     * @param int $factorVictory
-     */
-    public function setFactorVictory(int $factorVictory)
-    {
-        $this->factorVictory = $factorVictory;
-    }
-
-    /**
-     * @return int
-     */
-    public function getFactorDraw(): int
-    {
-        return $this->factorDraw;
-    }
-
-    /**
-     * @param int $factorDraw
-     */
-    public function setFactorDraw(int $factorDraw)
-    {
-        $this->factorDraw = $factorDraw;
-    }
-
     /**
      * @return int
      */
@@ -260,8 +213,8 @@ class Bet implements \JsonSerializable
             'sport' => $this->getSport(),
             'game' => $this->getGame(),
             'team' => $this->getTeam(),
+            'coefficient' => $this->getCoefficients(),
             'BetValue' => $this->getBetsValue(),
-            'factorVictory' => $this->getFactorVictory(),
             'money' => $this->getMoney(),
         ];
         // TODO: Implement jsonSerialize() method.

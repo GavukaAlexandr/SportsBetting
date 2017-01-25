@@ -2,16 +2,15 @@
 
 namespace Andersen\SportsBettingBundle\Entity;
 
-use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraint as Assert;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="fos_user")
+ * @ORM\Table(name="user")
  */
-Class User extends BaseUser implements \JsonSerializable
+Class User implements UserInterface, \JsonSerializable
 {
     /**
      * @ORM\Id
@@ -20,16 +19,31 @@ Class User extends BaseUser implements \JsonSerializable
      */
     protected $id;
 
-//    overriding FOS User Bundle Form registration (enter hea you custom fields)
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255)
      */
     protected $name;
 
     /**
+     * @ORM\Column(type="string", length=255)
+     */
+    protected $password;
+
+    /**
+     * @ORM\Column(type="string", length=255, unique=true)
+     */
+    protected $email;
+
+    /**
+     * @var $apiKey
+     * @ORM\Column(type="string", unique=true)
+     */
+    protected $apiKey;
+
+    /**
      * @var int
      *
-     * @ORM\Column(name="money", type="integer")
+     * @ORM\Column(name="money", type="integer", nullable=true)
      */
     protected $money = 0;
 
@@ -42,8 +56,8 @@ Class User extends BaseUser implements \JsonSerializable
 
     public function __construct()
     {
-        parent::__construct();
         $this->bets = new ArrayCollection();
+
     }
 
     public function setMoney($money)
@@ -129,5 +143,149 @@ Class User extends BaseUser implements \JsonSerializable
             'name' => $this->getName(),
         ];
         // TODO: Implement jsonSerialize() method.
+    }
+
+    /**
+     * Returns the roles granted to the user.
+     *
+     * <code>
+     * public function getRoles()
+     * {
+     *     return array('ROLE_USER');
+     * }
+     * </code>
+     *
+     * Alternatively, the roles might be stored on a ``roles`` property,
+     * and populated in any number of different ways when the user object
+     * is created.
+     *
+     * @return (Role|string)[] The user roles
+     */
+
+
+
+
+
+    public function getRoles()
+    {
+        // TODO: Implement getRoles() method.
+    }
+
+    /**
+     * Returns the password used to authenticate the user.
+     *
+     * This should be the encoded password. On authentication, a plain-text
+     * password will be salted, encoded, and then compared to this value.
+     *
+     * @return string The password
+     */
+    public function getPassword()
+    {
+        // TODO: Implement getPassword() method.
+    }
+
+    /**
+     * Returns the salt that was originally used to encode the password.
+     *
+     * This can return null if the password was not encoded using a salt.
+     *
+     * @return string|null The salt
+     */
+    public function getSalt()
+    {
+        // TODO: Implement getSalt() method.
+    }
+
+    /**
+     * Returns the username used to authenticate the user.
+     *
+     * @return string The username
+     */
+    public function getUsername()
+    {
+        // TODO: Implement getUsername() method.
+    }
+
+    /**
+     * Removes sensitive data from the user.
+     *
+     * This is important if, at any given point, sensitive information like
+     * the plain-text password is stored on this object.
+     */
+    public function eraseCredentials()
+    {
+        // TODO: Implement eraseCredentials() method.
+    }
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set apiKey
+     *
+     * @param string $apiKey
+     *
+     * @return User
+     */
+    public function setApiKey($apiKey)
+    {
+        $this->apiKey = $apiKey;
+
+        return $this;
+    }
+
+    /**
+     * Get apiKey
+     *
+     * @return string
+     */
+    public function getApiKey()
+    {
+        return $this->apiKey;
+    }
+
+    /**
+     * Set password
+     *
+     * @param string $password
+     *
+     * @return User
+     */
+    public function setPassword($password)
+    {
+        $this->password = $password;
+
+        return $this;
+    }
+
+    /**
+     * Set email
+     *
+     * @param string $email
+     *
+     * @return User
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * Get email
+     *
+     * @return string
+     */
+    public function getEmail()
+    {
+        return $this->email;
     }
 }

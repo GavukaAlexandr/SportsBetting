@@ -8,3 +8,11 @@ services:
         arguments: ["@doctrine.orm.entity_manager"]
         tags:
             - { name: console.command }
+
+    api_key_user_provider:
+        class: Andersen\SportsBettingBundle\Security\ApiKeyUserProvider
+        arguments: ["@doctrine.orm.entity_manager"]
+
+    apikey_authenticator:
+            class:  Andersen\SportsBettingBundle\Security\ApiKeyAuthenticator
+            public: false

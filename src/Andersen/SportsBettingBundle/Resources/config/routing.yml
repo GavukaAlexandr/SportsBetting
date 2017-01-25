@@ -38,6 +38,9 @@ sports_betting_create_bets:
     path: /sports/game/{gameId}/team/{teamId}/bet
     defaults: { _controller: SportsBettingBundle:Bet:createBet }
 
+sports_betting_register:
+    path: /register
+    defaults: { _controller: SportsBettingBundle:Bet:registerUser}
 
 
 

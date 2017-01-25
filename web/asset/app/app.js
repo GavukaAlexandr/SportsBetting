@@ -1,4 +1,4 @@
-var routerApp = angular.module('routerApp', ['ui.router']).config(function($interpolateProvider) {
+var routerApp = angular.module('routerApp', ['ui.router', 'ui.bootstrap']).config(function($interpolateProvider) {
     $interpolateProvider.startSymbol("{[{").endSymbol("}]}");
 });
 
@@ -35,7 +35,7 @@ routerApp.config(function($stateProvider, $urlRouterProvider) {
         });
 });
 
-routerApp.controller('LeftAsideCtrl', ['$scope', '$http', function ($scope, $http) {
+routerApp.controller('LeftAsideCtrl', ['$scope', '$http', '$uibModal', function ($scope, $http, $uibModal) {
     $scope.sports = [];
     $http.get('/api/sports').then(function(res) {
         $scope.sports = res.data;
@@ -60,3 +60,28 @@ routerApp.controller('MainContentCtrl', ['$scope', '$http', function ($scope, $h
         $scope.allBets = res.data
     });
 }]);
+
+////////////////   MODAL_REGISTER   //////////////////
+
+// routerApp.controller('openFormUser', ['$scope', '$http', '$uibModal', function ($scope, $http, $uibModal) {
+//
+//     $ctrl.animationsEnabled = true;
+//
+//     var modalInstance = $uibModal.open({
+//         animation: false,
+//         ariaLabelledBy: 'modal-title',
+//         ariaDescribedBy: 'modal-body',
+//         template: '<div>TEMPLATE</div>',
+//         // templateUrl: 'myModalContent.html',
+//         // controller: 'ModalInstanceCtrl',
+//         // controllerAs: '$ctrl',
+//         size: 'lg',
+//         // appendTo: parentElem,
+//         // resolve: {
+//         //     items: function () {
+//         //         return $ctrl.items;
+//         //     }
+//         // }
+//     });
+//
+// }]);
