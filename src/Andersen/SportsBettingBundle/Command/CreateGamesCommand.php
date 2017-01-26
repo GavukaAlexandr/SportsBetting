@@ -48,22 +48,45 @@ class CreateGamesCommand extends Command
         $sports = $this->em->getRepository('SportsBettingBundle:Sport')->findAll();
         $countSports = count($sports);
 
+        /**
+         * Create sports array
+         */
         $sportsArray = [];
         for ($i = 1; $i < $numberSports; $i++)
         {
             $sportsArray[] = $sports[rand(1, $countSports)];
         }
 
+        /**
+         * Create Games for sport types
+         */
         foreach ($sportsArray as $sport) {
 
+            /**
+             * get team by Id
+             */
             $teams = $this->em->getRepository('SportsBettingBundle:Team')->findGamesOfSportType($sport['id']);
+
+            /**
+             * Count teams
+             */
             $countTeams = count($teams);
 
+            /**
+             * Create number of games
+             * Number games = CLI parametrs $numberGames
+             */
             for ($i = 1; $i < $numberGames; $i++)
             {
+                /**
+                 * Generate random Game name
+                 */
                 $name1 = $teams[rand(0, $countTeams)];
                 $name2 = $teams[rand(0, $countTeams)];
 
+                /**
+                 * checking the uniqueness of the teams in the game
+                 */
                 for ($i = $name1; $i == $name2;)
                 {
                  $name2 = $teams[rand(1, $countTeams)];
@@ -71,6 +94,9 @@ class CreateGamesCommand extends Command
 
                 $name = $name1 . " " . $name2;
 
+                /**
+                 * Write generated game in db
+                 */
                 $gameType = new Game();
                 $gameType->setName($name);
                 $gameType->setSport($sport);
