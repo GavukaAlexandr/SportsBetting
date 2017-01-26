@@ -23,12 +23,6 @@ class Bet implements \JsonSerializable
     private $id;
 
     /**
-     * Many bets have one Sport
-     * @ORM\ManyToOne(targetEntity="Andersen\SportsBettingBundle\Entity\Sport", inversedBy="bets")
-     */
-    private $sport;
-
-    /**
      * Many bets have one Team
      * @ORM\ManyToOne(targetEntity="Andersen\SportsBettingBundle\Entity\Team", inversedBy="bets")
      */
@@ -61,14 +55,6 @@ class Bet implements \JsonSerializable
     private $money;
 
     /**
-     * @var $coefficients[]
-     *
-     * One Bet have Many Coefficients
-     * @ORM\OneToMany(targetEntity="Andersen\SportsBettingBundle\Entity\Coefficient", mappedBy="bet")
-     */
-    private $coefficients;
-
-    /**
      * @return mixed
      */
     public function getUser()
@@ -93,30 +79,6 @@ class Bet implements \JsonSerializable
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set sport
-     *
-     * @param string $sport
-     *
-     * @return Bet
-     */
-    public function setSport($sport)
-    {
-        $this->sport = $sport;
-
-        return $this;
-    }
-
-    /**
-     * Get sport
-     *
-     * @return string
-     */
-    public function getSport()
-    {
-        return $this->sport;
     }
 
     /**
@@ -210,54 +172,11 @@ class Bet implements \JsonSerializable
     {
         return [
             'user' => $this->getUser(),
-            'sport' => $this->getSport(),
             'game' => $this->getGame(),
             'team' => $this->getTeam(),
-            'coefficient' => $this->getCoefficients(),
             'BetValue' => $this->getBetsValue(),
             'money' => $this->getMoney(),
         ];
         // TODO: Implement jsonSerialize() method.
-    }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->coefficients = new ArrayCollection();
-    }
-
-    /**
-     * Add coefficient
-     *
-     * @param \Andersen\SportsBettingBundle\Entity\Coefficient $coefficient
-     *
-     * @return Bet
-     */
-    public function addCoefficient(\Andersen\SportsBettingBundle\Entity\Coefficient $coefficient)
-    {
-        $this->coefficients[] = $coefficient;
-
-        return $this;
-    }
-
-    /**
-     * Remove coefficient
-     *
-     * @param \Andersen\SportsBettingBundle\Entity\Coefficient $coefficient
-     */
-    public function removeCoefficient(\Andersen\SportsBettingBundle\Entity\Coefficient $coefficient)
-    {
-        $this->coefficients->removeElement($coefficient);
-    }
-
-    /**
-     * Get coefficients
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getCoefficients()
-    {
-        return $this->coefficients;
     }
 }

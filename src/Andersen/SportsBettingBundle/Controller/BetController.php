@@ -187,47 +187,59 @@ class BetController extends Controller
      */
     public function createBetAction(\Symfony\Component\HttpFoundation\Request $request)
     {
-        $teamId = $request->request->get('team_id');
         $gameId = $request->request->get('game_id');
         $betValue = $request->request->get('bet_value');
         $money = $request->request->get('money');
 
+        $coefficient = $this->getDoctrine()->getRepository('SportsBettingBundle:Coefficient')
+            ->getTeamOfTypeCoefficient($gameId, $betValue);
+
+//        $team = $this->getDoctrine()->getRepository('SportsBettingBundle:Team')->findOneBy(['id' => $teamId]);
+        $game = $this->getDoctrine()->getRepository('SportsBettingBundle:Game')->findOneBy(['id' => $gameId]);
+
+
         $bet = new Bet();
-        $bet->setTeam($teamId);
-        $bet->setGame($gameId);
+        $bet->setTeam($coefficient->getTeam());
+        $bet->setGame($game);
         $bet->setBetsValue($betValue);
         $bet->setMoney($money);
 
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($bet);
+        $em->flush();
+
+        $response = new JsonResponse(['status' => 'ok']);
+        return $response;
     }
 
-//    /**
-//     * @param Request $request
-//     *
-//     * /register
-//     *
-//     * register user
-//     */
-//    public function registerUserAction(Request $request)
-//    {
-//        $apiKey = $request->headers->get('apikey');
-//
-//        $userName = $request->request->get('name');
-//        $userEmail = $request->request->get('email');
-//        $userPassword = $request->request->get('password');
-//
-//
-//
-//        $checkExistenceUser = $this->getDoctrine()->getRepository("SportsBettingBundle:User")->findOneBy(['email' => $userEmail]);
-//
-//        if ($checkExistenceUser == NULL) {
-//            $registerUser = new User();
-//            $registerUser->setName($userName);
-//            $registerUser->setPassword($userPassword);
-//            $registerUser->setEmail($userEmail);
-//
-//            $em = $this->getDoctrine()->getManager();
-//            $em->persist($registerUser);
-//            $em->flush();
-//        }
-//    }
+    /**
+     * @param Request $request
+     *
+     * /register
+     *
+     * register user
+     */
+    public function registerUserAction(Request $request)
+    {
+        $apiKey = $request->headers->get('apikey');
+
+        $userName = $request->request->get('name');
+        $userEmail = $request->request->get('email');
+        $userPassword = $request->request->get('password');
+
+
+
+        $checkExistenceUser = $this->getDoctrine()->getRepository("SportsBettingBundle:User")->findOneBy(['email' => $userEmail]);
+
+        if ($checkExistenceUser == NULL) {
+            $registerUser = new User();
+            $registerUser->setName($userName);
+            $registerUser->setPassword($userPassword);
+            $registerUser->setEmail($userEmail);
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($registerUser);
+            $em->flush();
+        }
+    }
 }

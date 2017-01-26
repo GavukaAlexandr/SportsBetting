@@ -28,6 +28,7 @@ class Coefficient implements \JsonSerializable
      *
      * Many Coefficients have One Team
      * @ORM\ManyToOne(targetEntity="Andersen\SportsBettingBundle\Entity\Team", inversedBy="coefficients")
+     *
      */
     private $team;
 
@@ -38,14 +39,6 @@ class Coefficient implements \JsonSerializable
      * @ORM\ManyToOne(targetEntity="Andersen\SportsBettingBundle\Entity\Game", inversedBy="coefficients")
      */
     private $game;
-
-    /**
-     *@var $bet
-     *
-     * Many Coefficients have One Bet
-     * @ORM\ManyToOne(targetEntity="Andersen\SportsBettingBundle\Entity\Bet", inversedBy="coefficients")
-     */
-    private $bet;
 
     /**
      * @var string
@@ -182,29 +175,5 @@ class Coefficient implements \JsonSerializable
             'value' => $this->getValue(),
         ];
         // TODO: Implement jsonSerialize() method.
-    }
-
-    /**
-     * Set bet
-     *
-     * @param \Andersen\SportsBettingBundle\Entity\Bet $bet
-     *
-     * @return Coefficient
-     */
-    public function setBet(\Andersen\SportsBettingBundle\Entity\Bet $bet = null)
-    {
-        $this->bet = $bet;
-
-        return $this;
-    }
-
-    /**
-     * Get bet
-     *
-     * @return \Andersen\SportsBettingBundle\Entity\Bet
-     */
-    public function getBet()
-    {
-        return $this->bet;
     }
 }

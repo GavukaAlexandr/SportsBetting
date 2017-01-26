@@ -10,4 +10,18 @@ namespace Andersen\SportsBettingBundle\Repository;
  */
 class CoefficientRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function getTeamOfTypeCoefficient($gameId, $betValue)
+    {
+        $query = $this->getEntityManager()->createQueryBuilder()
+            ->select('t', 'c', 'g')
+            ->from('SportsBettingBundle:Coefficient', 'c')
+            ->leftJoin('c.team', 't')
+            ->leftJoin('c.game', 'g')
+            ->where("c.game = :gameId")
+            ->andWhere("c.typeCoefficient = :betValue")
+            ->setParameter('gameId', $gameId)
+            ->setParameter('betValue', $betValue);
+        $getQuery = $query->getQuery()->getSingleResult();
+        return $getQuery;
+    }
 }
