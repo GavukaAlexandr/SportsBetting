@@ -187,29 +187,67 @@ class BetController extends Controller
      */
     public function createBetAction(\Symfony\Component\HttpFoundation\Request $request)
     {
+        /**
+         * Get POST parameters
+         */
         $gameId = $request->request->get('game_id');
         $betValue = $request->request->get('bet_value');
-        $money = $request->request->get('money');
+        $moneyToBet = $request->request->get('money');
+        $userId = $request->request->get('user_id');
 
-        $coefficient = $this->getDoctrine()->getRepository('SportsBettingBundle:Coefficient')
-            ->getTeamOfTypeCoefficient($gameId, $betValue);
+        /**
+         * Get User Of Id
+         */
+        $user = $this->getDoctrine()
+            ->getManager()
+            ->getRepository('SportsBettingBundle:User')
+            ->findOneBy(['id' => $userId]);
 
-//        $team = $this->getDoctrine()->getRepository('SportsBettingBundle:Team')->findOneBy(['id' => $teamId]);
-        $game = $this->getDoctrine()->getRepository('SportsBettingBundle:Game')->findOneBy(['id' => $gameId]);
+        /**
+         * If User have money in bet
+         */
+        $userMoney = $user->getMoney();
+        if ($userMoney >= $moneyToBet and $moneyToBet > 0){
+            /**
+             * take money in User for betting
+             */
+            $userMoneyResult = $userMoney  - $moneyToBet;
+            $user->setMoney($userMoneyResult);
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($user);
 
+            /**
+             * Get team of GameId and BetValue
+             */
+            $coefficient = $this->getDoctrine()
+                ->getRepository('SportsBettingBundle:Coefficient')
+                ->getTeamOfTypeCoefficient($gameId, $betValue);
 
-        $bet = new Bet();
-        $bet->setTeam($coefficient->getTeam());
-        $bet->setGame($game);
-        $bet->setBetsValue($betValue);
-        $bet->setMoney($money);
+            /**
+             * Get Game object from GameEntity by Id
+             */
+            $game = $this->getDoctrine()->getRepository('SportsBettingBundle:Game')->findOneBy(['id' => $gameId]);
 
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($bet);
-        $em->flush();
+            /**
+             * Create Bet
+             */
+            $bet = new Bet();
+            $bet->setTeam($coefficient->getTeam());
+            $bet->setGame($game);
+            $bet->setUser($user);
+            $bet->setBetsValue($betValue);
+            $bet->setMoney($moneyToBet);
 
-        $response = new JsonResponse(['status' => 'ok']);
-        return $response;
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($bet);
+            $em->flush();
+
+            $response = new JsonResponse(['status' => 'ok']);
+            return $response;
+        } else {
+            $message = "Sorry, you don`t have enough money to bet";
+            return new JsonResponse(['status' => $message]);
+        }
     }
 
     /**

@@ -35,7 +35,7 @@ sports_betting_user_set_money:
     defaults: { _controller: SportsBettingBundle:Bet:setUserMoney }
 
 sports_betting_create_bets:
-    path: /sports/game/{gameId}/team/{teamId}/bet
+    path: /sports/{sportsId}/game/{gameId}/team/{teamId}/bet
     defaults: { _controller: SportsBettingBundle:Bet:createBet }
 
 sports_betting_register:
