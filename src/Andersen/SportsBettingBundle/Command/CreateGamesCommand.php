@@ -3,6 +3,7 @@
 namespace Andersen\SportsBettingBundle\Command;
 
 use Andersen\SportsBettingBundle\Entity\Game;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -41,65 +42,58 @@ class CreateGamesCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        // Get argument Of CLI
         $numberGames = intval($input->getArgument('numberGames'));
         $numberSports = intval($input->getArgument('numberSports'));
-        $output->writeln('Yes my Lord, now will create ' . $numberGames . ' games for you ' . $numberSports . ' sports type');
 
+        // send message in CLI
+        $output->writeln('now will create ' . $numberGames . ' games for you ' . $numberSports . ' sports type');
+
+        // get all sports
         $sports = $this->em->getRepository('SportsBettingBundle:Sport')->findAll();
         $countSports = count($sports);
 
-        /**
-         * Create sports array
-         */
+        // Create sports array
         $sportsArray = [];
-        for ($i = 1; $i < $numberSports; $i++)
+        for ($i = 0; $i < $numberSports; $i++)
         {
-            $sportsArray[] = $sports[rand(1, $countSports)];
+            $sportsArray[] = $sports[rand(0, $countSports)];
         }
 
-        /**
-         * Create Games for sport types
-         */
+        // Create Games for sport types
         foreach ($sportsArray as $sport) {
 
-            /**
-             * get team by Id
-             */
-            $teams = $this->em->getRepository('SportsBettingBundle:Team')->findGamesOfSportType($sport['id']);
+            // get team by Id
+            $teams = $this->em->getRepository('SportsBettingBundle:Team')->findGamesOfSportType($sport->getId());
 
-            /**
-             * Count teams
-             */
-            $countTeams = count($teams);
+            //Count teams
+            $countTeams = count($teams) - 1;
 
-            /**
-             * Create number of games
-             * Number games = CLI parametrs $numberGames
-             */
-            for ($i = 1; $i < $numberGames; $i++)
+            // Create number of games
+            // Number games = CLI parametrs $numberGames
+            for ($a = 1; $a < $numberGames; $a++)
             {
-                /**
-                 * Generate random Game name
-                 */
-                $name1 = $teams[rand(0, $countTeams)];
-                $name2 = $teams[rand(0, $countTeams)];
+                // Generate random Game name
+                $nameObj1 = $teams[rand(0, $countTeams)];
+                $nameObj2 = $teams[rand(0, $countTeams)];
+                // Get name Of object
+                $name1 = $nameObj1->getName();
+                $name2 = $nameObj2->getName();
 
-                /**
-                 * checking the uniqueness of the teams in the game
-                 */
-                for ($i = $name1; $i == $name2;)
+                //checking the uniqueness of the teams in the game
+                for ($n = $name1; $n == $name2;)
                 {
-                 $name2 = $teams[rand(1, $countTeams)];
+                    $nameObj2 = $teams[rand(1, $countTeams)];
+                    $name2 = $nameObj2->getName();
                 }
 
-                $name = $name1 . " " . $name2;
+                $name = $name1 . " - " . $name2;
 
-                /**
-                 * Write generated game in db
-                 */
+                //Write generated game in db
                 $gameType = new Game();
                 $gameType->setName($name);
                 $gameType->setSport($sport);
+                $gameType->addTeams([$nameObj1, $nameObj2]);
 
                 $this->em->persist($gameType);
                 $this->em->flush();

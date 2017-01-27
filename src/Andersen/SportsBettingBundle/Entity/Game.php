@@ -114,29 +114,29 @@ class Game implements \JsonSerializable
         return $this->name;
     }
 
-    /**
-     * Set teams
-     *
-     * @param string $teams
-     *
-     * @return Game
-     */
-    public function setTeams($teams)
-    {
-        $this->teams = $teams;
-
-        return $this;
-    }
-
-    /**
-     * Get teams
-     *
-     * @return string
-     */
-    public function getTeams()
-    {
-        return $this->teams;
-    }
+//    /**
+//     * Set teams
+//     *
+//     * @param string $teams
+//     *
+//     * @return Game
+//     */
+//    public function setTeams($teams)
+//    {
+//        $this->teams = $teams;
+//
+//        return $this;
+//    }
+//
+//    /**
+//     * Get teams
+//     *
+//     * @return string
+//     */
+//    public function getTeams()
+//    {
+//        return $this->teams;
+//    }
 
     /**
      * Set teamWinner
@@ -188,6 +188,16 @@ class Game implements \JsonSerializable
         }
 
         return $this;
+    }
+
+    /**
+     * @param array Team[] $teams
+     */
+    public function addTeams(array $teams)
+    {
+        foreach ($teams as $team){
+           $this->addTeam($team);
+        }
     }
 
     /**
@@ -284,5 +294,15 @@ class Game implements \JsonSerializable
     public function getCoefficients()
     {
         return $this->coefficients;
+    }
+
+    /**
+     * Get teams
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getTeams()
+    {
+        return $this->teams;
     }
 }

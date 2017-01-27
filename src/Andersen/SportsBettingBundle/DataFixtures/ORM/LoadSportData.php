@@ -27,7 +27,7 @@ class LoadSportData extends AbstractFixture implements OrderedFixtureInterface
             "Baseball",
             "Hockey",
             "Sprint",
-            "Roller",
+            "Roller``",
             "Canadian football",
             "American football",
             "Freestyle",
