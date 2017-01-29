@@ -47,6 +47,22 @@ class TeamRepository extends \Doctrine\ORM\EntityRepository
             ->setParameter('gameId', $gameId)
             ->setParameter('$sportId', $sportId);
         $query = $query->getQuery()->getResult();
+
+        return$query;
+    }
+
+    public function findTeamsInGame($gameId)
+    {
+        $query = $this
+            ->getEntityManager()
+            ->createQueryBuilder()
+            ->select('t', 'g')
+            ->from('SportsBettingBundle:Team', 't')
+            ->leftJoin('t.games', 'g')
+            ->where("t.games = :gameId")
+            ->setParameter('gameId', $gameId);
+        $query = $query->getQuery()->getResult();
+
         return$query;
     }
 }

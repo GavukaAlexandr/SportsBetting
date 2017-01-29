@@ -31,4 +31,19 @@ class GameRepository extends \Doctrine\ORM\EntityRepository
         $query = $gamesFromSportId->getQuery()->getResult();
         return $query;
     }
+
+    public function FindGamesWithoutCoefficients()
+    {
+        $query = $this
+            ->getEntityManager()
+            ->createQueryBuilder()
+            ->select('g', 'c')
+            ->from('SportsBettingBundle:Game', 'g')
+            ->leftJoin('g.coefficients', 'c')
+            ->where("g.teamWinner is NULL")
+            ->andWhere("c.id is NULL");
+//            ->setParameter('NULL', NULL);
+        $query = $query->getQuery()->getResult();
+        return $query;
+    }
 }

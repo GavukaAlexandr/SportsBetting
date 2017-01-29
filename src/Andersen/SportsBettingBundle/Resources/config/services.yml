@@ -9,6 +9,12 @@ services:
         tags:
             - { name: console.command }
 
+    sports_betting.command.create_coefficient:
+            class: Andersen\SportsBettingBundle\Command\CreateCoefficientCommand
+            arguments: ["@doctrine.orm.entity_manager"]
+            tags:
+                - { name: console.command }
+
     api_key_user_provider:
         class: Andersen\SportsBettingBundle\Security\ApiKeyUserProvider
         arguments: ["@doctrine.orm.entity_manager"]

@@ -114,30 +114,6 @@ class Game implements \JsonSerializable
         return $this->name;
     }
 
-//    /**
-//     * Set teams
-//     *
-//     * @param string $teams
-//     *
-//     * @return Game
-//     */
-//    public function setTeams($teams)
-//    {
-//        $this->teams = $teams;
-//
-//        return $this;
-//    }
-//
-//    /**
-//     * Get teams
-//     *
-//     * @return string
-//     */
-//    public function getTeams()
-//    {
-//        return $this->teams;
-//    }
-
     /**
      * Set teamWinner
      *
