@@ -59,7 +59,7 @@ class TeamRepository extends \Doctrine\ORM\EntityRepository
             ->select('t', 'g')
             ->from('SportsBettingBundle:Team', 't')
             ->leftJoin('t.games', 'g')
-            ->where("t.games = :gameId")
+            ->where("g.id = :gameId")
             ->setParameter('gameId', $gameId);
         $query = $query->getQuery()->getResult();
 

@@ -32,6 +32,7 @@ class GameRepository extends \Doctrine\ORM\EntityRepository
         return $query;
     }
 
+    //for create coefficient
     public function FindGamesWithoutCoefficients()
     {
         $query = $this
@@ -44,6 +45,71 @@ class GameRepository extends \Doctrine\ORM\EntityRepository
             ->andWhere("c.id is NULL");
 //            ->setParameter('NULL', NULL);
         $query = $query->getQuery()->getResult();
+        return $query;
+    }
+
+    //for coefficient
+    public function findGamesWhereTeamPlayed($teamId)
+    {
+        $query = $this
+            ->getEntityManager()
+            ->createQueryBuilder()
+            ->select('t', 'g')
+            ->from('SportsBettingBundle:Game', 'g')
+            ->leftJoin('g.teams', 't')
+            ->where("t.id = :teamId")
+            ->setParameter('teamId', $teamId);
+        $query = $query->getQuery()->getResult();
+
+        return$query;
+    }
+
+//    //for coefficient
+//    public function findGamesWhereTeamWon($teamId)
+//    {
+//        $query = $this
+//            ->getEntityManager()
+//            ->createQueryBuilder()
+//            ->select('t', 'g')
+//            ->from('SportsBettingBundle:Game', 'g')
+//            ->leftJoin('g.teams', 't')
+//            ->where("t.id = :teamId")
+//            ->andWhere("g.teamWinner IS NOT NULL")
+//            ->setParameter('teamId', $teamId);
+//        $query = $query->getQuery()->getResult();
+//
+//        return$query;
+//    }
+//
+//    public function findGamesWhereTeamLost($teamId)
+//    {
+//        $query = $this
+//            ->getEntityManager()
+//            ->createQueryBuilder()
+//            ->select('t', 'g')
+//            ->from('SportsBettingBundle:Game', 'g')
+//            ->leftJoin('g.teams', 't')
+//            ->where("t.id = :teamId")
+//            ->andWhere("g.teamWinner IS NULL")
+//            ->setParameter('teamId', $teamId);
+//        $query = $query->getQuery()->getResult();
+//
+//        return$query;
+//    }
+
+    public function findGamesWithParameters($teamId, $teamResult)
+    {
+        $query = $this->getEntityManager()->createQueryBuilder()
+            ->select('g', 'tr', 't')
+            ->from('SportsBettingBundle:Game', 'g')
+            ->leftJoin('g.teamResult', 'tr')
+            ->leftJoin('g.teams', 't')
+            ->Where("t.id = :teamId")
+            ->andWhere("tr.gameResult = :teamResult")
+            ->setParameter('teamId', $teamId)
+            ->setParameter('teamResult', $teamResult);
+        $query = $query->getQuery()->getResult();
+
         return $query;
     }
 }

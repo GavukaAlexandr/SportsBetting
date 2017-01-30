@@ -37,6 +37,13 @@ class Game implements \JsonSerializable
     private $teams;
 
     /**
+     * One Game have many TeamResults
+     *
+     * @ORM\OneToMany(targetEntity="Andersen\SportsBettingBundle\Entity\TeamResult", mappedBy="Game")
+     */
+    private $teamResult;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="teamWinner", type="string", length=255, nullable=true)
@@ -145,6 +152,7 @@ class Game implements \JsonSerializable
         $this->teams = new ArrayCollection();
         $this->bets = new ArrayCollection();
         $this->coefficients = new ArrayCollection();
+        $this->teamResult = new ArrayCollection();
 
     }
 
@@ -280,5 +288,39 @@ class Game implements \JsonSerializable
     public function getTeams()
     {
         return $this->teams;
+    }
+
+    /**
+     * Add teamResult
+     *
+     * @param \Andersen\SportsBettingBundle\Entity\TeamResult $teamResult
+     *
+     * @return Game
+     */
+    public function addTeamResult(\Andersen\SportsBettingBundle\Entity\TeamResult $teamResult)
+    {
+        $this->teamResult[] = $teamResult;
+
+        return $this;
+    }
+
+    /**
+     * Remove teamResult
+     *
+     * @param \Andersen\SportsBettingBundle\Entity\TeamResult $teamResult
+     */
+    public function removeTeamResult(\Andersen\SportsBettingBundle\Entity\TeamResult $teamResult)
+    {
+        $this->teamResult->removeElement($teamResult);
+    }
+
+    /**
+     * Get teamResult
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getTeamResult()
+    {
+        return $this->teamResult;
     }
 }

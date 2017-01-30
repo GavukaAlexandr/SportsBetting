@@ -56,6 +56,13 @@ class Team implements \JsonSerializable
      */
     private $coefficients;
 
+    /**
+     * One Team have Many TeamResults
+     *
+     * @ORM\OneToMany(targetEntity="Andersen\SportsBettingBundle\Entity\TeamResult", mappedBy="team")
+     */
+    private $teamResult;
+
 
     /**
      * Get id
@@ -146,6 +153,7 @@ class Team implements \JsonSerializable
         $this->games = new ArrayCollection();
         $this->bets = new ArrayCollection();
         $this->coefficients = new ArrayCollection();
+        $this->teamResult = new ArrayCollection();
 
     }
 
@@ -260,5 +268,39 @@ class Team implements \JsonSerializable
     public function getCoefficients()
     {
         return $this->coefficients;
+    }
+
+    /**
+     * Add teamResult
+     *
+     * @param \Andersen\SportsBettingBundle\Entity\TeamResult $teamResult
+     *
+     * @return Team
+     */
+    public function addTeamResult(\Andersen\SportsBettingBundle\Entity\TeamResult $teamResult)
+    {
+        $this->teamResult[] = $teamResult;
+
+        return $this;
+    }
+
+    /**
+     * Remove teamResult
+     *
+     * @param \Andersen\SportsBettingBundle\Entity\TeamResult $teamResult
+     */
+    public function removeTeamResult(\Andersen\SportsBettingBundle\Entity\TeamResult $teamResult)
+    {
+        $this->teamResult->removeElement($teamResult);
+    }
+
+    /**
+     * Get teamResult
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getTeamResult()
+    {
+        return $this->teamResult;
     }
 }

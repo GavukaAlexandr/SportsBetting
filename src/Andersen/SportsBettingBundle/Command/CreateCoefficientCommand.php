@@ -45,20 +45,41 @@ class CreateCoefficientCommand extends Command
 
         foreach ($gamesWithoutCoefficients as $gamesWithoutCoefficient)
         {
+            //find teams in game
             $teamsInGame = $this->em->getRepository('SportsBettingBundle:Team')->findTeamsInGame($gamesWithoutCoefficient->getId());
 
-        return $teamsInGame;
+            $teamSuccess = [];
+
+            foreach ($teamsInGame as $teamInGame){
+                //Find games where team played
+                $gamesWhereTeamPlayed = $this->em->getRepository('SportsBettingBundle:Game')->findGamesWhereTeamPlayed($teamInGame->getId());
+
+                //Find games where team won
+                $gamesWhereTeamWon = $this->em->getRepository('SportsBettingBundle:Game')->findGamesWithParameters($teamInGame->getId(), 1);
+
+                //Find games where team lost
+                $gamesWhereTeamLost = $this->em->getRepository('SportsBettingBundle:Game')->findGamesWithParameters($teamInGame->getId(), 2);
+
+                //Find games where team Draw
+                $gamesWhereTeamDraw = $this->em->getRepository('SportsBettingBundle:Game')->findGamesWithParameters($teamInGame->getId(), 0);
+
+//                $teamSuccess[$teamInGame->getName()] = $gamesWhereTeamWon->get / ($gamesWhereTeamWon + $gamesWhereTeamLost + $gamesWhereTeamDraw); //50/(10+5+50)
+                return $gamesWhereTeamWon;
+            }
+
+//            count($teamSuccess);
+
         }
 
         //---Вибрати всі ігри у яких немає коефіцієнтів
         //---сформувати із них масив ігор
         //---форіч перебираючи масив ігор
-            //вибірка з бази всіх команд які беруть участь у грі в масив
-            //форіч команди по одній із масиву
-                //вибірка всих ігор в яких грала команда
-                //вибірка всих ігор в яких команда виграла
-                //вибірка всих ігор в яких команда програла
-                //вибірка вих ігор які закінчилися нічиєю
+            //---вибірка з бази всіх команд які беруть участь у грі в масив
+            //---форіч команди по одній із масиву
+                //---вибірка всих ігор в яких грала команда
+                //---вибірка всих ігор в яких команда виграла
+                //---вибірка всих ігор в яких команда програла
+                //---вибірка вих ігор які закінчилися нічиєю
 
                 //вирахування успішності команди - a
                 //додати результати в масив під назвою Team[1] (Team[2] - [0])
@@ -69,15 +90,14 @@ class CreateCoefficientCommand extends Command
 
 
 /**
+ * =====Формула Байеса======
+ *
  * =======ЛЕГЕНДА============
  ***А – состоялся матч (событие);
 Н1 – гипотеза, что победит (первая - 1) команда;
 Н2 – гипотеза, что победит (вторая - 2) команда;
 Н3 – гипотеза, что будет ничья;
- *
- *
- *
-Р(А) – полная вероятность наступления события
+Р(А) – повна ймовірність того що подія відбудеться
  *
  *
  *
