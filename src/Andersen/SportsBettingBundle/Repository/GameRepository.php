@@ -112,4 +112,29 @@ class GameRepository extends \Doctrine\ORM\EntityRepository
 
         return $query;
     }
+
+    public function findGamesWithoutTime()
+    {
+        $query = $this->getEntityManager()->createQueryBuilder()
+            ->select('g')
+            ->from('SportsBettingBundle:Game', 'g')
+            ->where("g.startTime IS NULL");
+        $query = $query->getQuery()->getResult();
+
+        return $query;
+    }
+
+    public function selectGamesWherePlayTeamFromOurGame($teamId)
+    {
+        $query = $this->getEntityManager()->createQueryBuilder()
+            ->select('g', 't')
+            ->from('SportsBettingBundle:Game', 'g')
+            ->leftJoin('g.teams', 't')
+            ->where("t.id = :teamId")
+            ->andWhere("g.teamWinner IS NULL")
+            ->setParameter('teamId', $teamId);
+        $query = $query->getQuery()->getResult();
+
+        return $query;
+    }
 }

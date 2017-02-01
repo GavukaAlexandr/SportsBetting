@@ -15,6 +15,18 @@ services:
             tags:
                 - { name: console.command }
 
+    sports_betting.command.completing_games:
+            class: Andersen\SportsBettingBundle\Command\CompletingGamesCommand
+            arguments: ["@doctrine.orm.entity_manager"]
+            tags:
+                - { name: console.command }
+
+    sports_betting.command.create_time_for_games:
+            class: Andersen\SportsBettingBundle\Command\CreateTimeForGameCommand
+            arguments: ["@doctrine.orm.entity_manager"]
+            tags:
+                - { name: console.command }
+
     api_key_user_provider:
         class: Andersen\SportsBettingBundle\Security\ApiKeyUserProvider
         arguments: ["@doctrine.orm.entity_manager"]

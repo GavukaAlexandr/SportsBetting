@@ -159,4 +159,28 @@ class TeamResult
 
         return $this;
     }
+
+    /**
+     * Set game
+     *
+     * @param \Andersen\SportsBettingBundle\Entity\Game $game
+     *
+     * @return TeamResult
+     */
+    public function setGame(\Andersen\SportsBettingBundle\Entity\Game $game = null)
+    {
+        $this->Game = $game;
+
+        return $this;
+    }
+
+    /**
+     * Get game
+     *
+     * @return \Andersen\SportsBettingBundle\Entity\Game
+     */
+    public function getGame()
+    {
+        return $this->Game;
+    }
 }

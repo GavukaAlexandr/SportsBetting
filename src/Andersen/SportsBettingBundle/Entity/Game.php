@@ -71,6 +71,20 @@ class Game implements \JsonSerializable
     private $coefficients;
 
     /**
+     * @var $startTime
+     *
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $startTime;
+
+    /**
+     * @var $finishTime
+     *
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $finishTime;
+
+    /**
      * @return mixed
      */
     public function getSport()
@@ -322,5 +336,53 @@ class Game implements \JsonSerializable
     public function getTeamResult()
     {
         return $this->teamResult;
+    }
+
+    /**
+     * Set startTime
+     *
+     * @param \DateTime $startTime
+     *
+     * @return Game
+     */
+    public function setStartTime($startTime)
+    {
+        $this->startTime = $startTime;
+
+        return $this;
+    }
+
+    /**
+     * Get startTime
+     *
+     * @return \DateTime
+     */
+    public function getStartTime()
+    {
+        return $this->startTime;
+    }
+
+    /**
+     * Set finishTime
+     *
+     * @param \DateTime $finishTime
+     *
+     * @return Game
+     */
+    public function setFinishTime($finishTime)
+    {
+        $this->finishTime = $finishTime;
+
+        return $this;
+    }
+
+    /**
+     * Get finishTime
+     *
+     * @return \DateTime
+     */
+    public function getFinishTime()
+    {
+        return $this->finishTime;
     }
 }
