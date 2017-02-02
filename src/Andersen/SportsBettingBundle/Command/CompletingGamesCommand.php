@@ -58,7 +58,7 @@ class CompletingGamesCommand extends Command
 
             /** Rand team winner or draw */
             $rand = rand(1, 10);
-            if ($rand > 7) {
+            if ($rand > 1) {
                 $teamWinner = 0;
             } else {
                 $winner = array_rand($teams);
@@ -72,27 +72,26 @@ class CompletingGamesCommand extends Command
             $this->em->persist($game);
 
             foreach ($teams as $team) {
-                $teamForIf = $team->getId();
+                $teamId = intval($team->getId());
                 if ($teamWinner instanceof Team) {
-                    $winnerForIf = $teamWinner->getId();
+                    $winnerId = clone $teamWinner;
+                    $winnerId = intval($winnerId->getId());
+                } else {
+                    $winnerId = intval($teamWinner);
                 }
 
-                if ($teamForIf === $winnerForIf) {
-                    $teamResult = new TeamResult();
-                    $teamResult->setGame($game);
-                    $teamResult->setTeam($team);
+                $teamResult = new TeamResult();
+                $teamResult->setGame($game);
+                $teamResult->setTeam($team);
+
+                if ($teamId === $winnerId){
                     $teamResult->setGameResult(1);
-                } elseif ($teamWinner == 0) {
-                    $teamResult = new TeamResult();
-                    $teamResult->setGame($game);
-                    $teamResult->setTeam($team);
+                } elseif ($winnerId == 0) {
                     $teamResult->setGameResult(0);
                 } else {
-                    $teamResult = new TeamResult();
-                    $teamResult->setGame($game);
-                    $teamResult->setTeam($team);
                     $teamResult->setGameResult(2);
                 }
+
                 $this->em->persist($teamResult);
                 $this->em->flush();
             }
