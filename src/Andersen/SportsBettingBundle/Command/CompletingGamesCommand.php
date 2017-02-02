@@ -72,8 +72,12 @@ class CompletingGamesCommand extends Command
             $this->em->persist($game);
 
             foreach ($teams as $team) {
+                $teamForIf = $team->getId();
+                if ($teamWinner instanceof Team) {
+                    $winnerForIf = $teamWinner->getId();
+                }
 
-                if ($teamWinner == $team) {
+                if ($teamForIf === $winnerForIf) {
                     $teamResult = new TeamResult();
                     $teamResult->setGame($game);
                     $teamResult->setTeam($team);
