@@ -46,9 +46,16 @@ class Game implements \JsonSerializable
     /**
      * @var string
      *
-     * @ORM\Column(name="teamWinner", type="string", length=255, nullable=true)
+     * @ORM\ManyToOne(targetEntity="Andersen\SportsBettingBundle\Entity\Team")
      */
     private $teamWinner;
+
+    /**
+     * @var $gameResult
+     *
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $gameResult;
 
     /**
      * Many Game have one Sport
@@ -384,5 +391,29 @@ class Game implements \JsonSerializable
     public function getFinishTime()
     {
         return $this->finishTime;
+    }
+
+    /**
+     * Set gameResult
+     *
+     * @param boolean $gameResult
+     *
+     * @return Game
+     */
+    public function setGameResult($gameResult)
+    {
+        $this->gameResult = $gameResult;
+
+        return $this;
+    }
+
+    /**
+     * Get gameResult
+     *
+     * @return boolean
+     */
+    public function getGameResult()
+    {
+        return $this->gameResult;
     }
 }

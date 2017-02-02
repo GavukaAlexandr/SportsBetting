@@ -137,4 +137,18 @@ class GameRepository extends \Doctrine\ORM\EntityRepository
 
         return $query;
     }
+
+    /** find games with elapsed time */
+    public function findGamesWithElapsedTime()
+    {
+        $query = $this->getEntityManager()->createQueryBuilder()
+            ->select('g')
+            ->from('SportsBettingBundle:Game', 'g')
+            ->where("g.teamWinner IS NULL")
+            ->andWhere("g.finishTime < :nowTime")
+            ->setParameter('nowTime', new \DateTime('now'), \Doctrine\DBAL\Types\Type::DATETIME);
+        $query = $query->getQuery()->getResult();
+
+        return $query;
+    }
 }
