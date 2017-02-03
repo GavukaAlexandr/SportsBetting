@@ -58,7 +58,7 @@ class CompletingGamesCommand extends Command
 
             /** Rand team winner or draw */
             $rand = rand(1, 10);
-            if ($rand > 1) {
+            if ($rand > 7) {
                 $teamWinner = 0;
             } else {
                 $winner = array_rand($teams);
@@ -67,7 +67,12 @@ class CompletingGamesCommand extends Command
             }
 
             /** write result in DB */
-            $game->setTeamWinner($teamWinner);
+
+            if ($teamWinner instanceof Team) {
+                $game->setTeamWinner($teamWinner);
+            } elseif ($teamWinner == 0) {
+                $game->setTeamWinner(null);
+            }
             $game->setGameResult(true);
             $this->em->persist($game);
 
@@ -86,7 +91,7 @@ class CompletingGamesCommand extends Command
 
                 if ($teamId === $winnerId){
                     $teamResult->setGameResult(1);
-                } elseif ($winnerId == 0) {
+                } elseif ($winnerId === 0) {
                     $teamResult->setGameResult(0);
                 } else {
                     $teamResult->setGameResult(2);

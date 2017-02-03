@@ -58,44 +58,12 @@ class GameRepository extends \Doctrine\ORM\EntityRepository
             ->from('SportsBettingBundle:Game', 'g')
             ->leftJoin('g.teams', 't')
             ->where("t.id = :teamId")
+            ->andWhere("g.gameResult = TRUE")
             ->setParameter('teamId', $teamId);
         $query = $query->getQuery()->getResult();
 
         return$query;
     }
-
-//    //for coefficient
-//    public function findGamesWhereTeamWon($teamId)
-//    {
-//        $query = $this
-//            ->getEntityManager()
-//            ->createQueryBuilder()
-//            ->select('t', 'g')
-//            ->from('SportsBettingBundle:Game', 'g')
-//            ->leftJoin('g.teams', 't')
-//            ->where("t.id = :teamId")
-//            ->andWhere("g.teamWinner IS NOT NULL")
-//            ->setParameter('teamId', $teamId);
-//        $query = $query->getQuery()->getResult();
-//
-//        return$query;
-//    }
-//
-//    public function findGamesWhereTeamLost($teamId)
-//    {
-//        $query = $this
-//            ->getEntityManager()
-//            ->createQueryBuilder()
-//            ->select('t', 'g')
-//            ->from('SportsBettingBundle:Game', 'g')
-//            ->leftJoin('g.teams', 't')
-//            ->where("t.id = :teamId")
-//            ->andWhere("g.teamWinner IS NULL")
-//            ->setParameter('teamId', $teamId);
-//        $query = $query->getQuery()->getResult();
-//
-//        return$query;
-//    }
 
     public function findGamesWithParameters($teamId, $teamResult)
     {
@@ -131,7 +99,7 @@ class GameRepository extends \Doctrine\ORM\EntityRepository
             ->from('SportsBettingBundle:Game', 'g')
             ->leftJoin('g.teams', 't')
             ->where("t.id = :teamId")
-            ->andWhere("g.teamWinner IS NULL")
+            ->andWhere("g.gameResult IS NULL")
             ->setParameter('teamId', $teamId);
         $query = $query->getQuery()->getResult();
 
@@ -147,6 +115,17 @@ class GameRepository extends \Doctrine\ORM\EntityRepository
             ->where("g.teamWinner IS NULL")
             ->andWhere("g.finishTime < :nowTime")
             ->setParameter('nowTime', new \DateTime('now'), \Doctrine\DBAL\Types\Type::DATETIME);
+        $query = $query->getQuery()->getResult();
+
+        return $query;
+    }
+
+    public function notCompleteGame()
+    {
+        $query = $this->getEntityManager()->createQueryBuilder()
+            ->select('g')
+            ->from('SportsBettingBundle:Game', 'g')
+            ->where("g.gameResult IS NULL");
         $query = $query->getQuery()->getResult();
 
         return $query;

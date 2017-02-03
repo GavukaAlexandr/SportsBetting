@@ -56,8 +56,10 @@ class CreateTimeForGameCommand extends Command
                 //створити форіч який буде вибирати всі не завершені ігри з даною командою і поміщатиме час всих ігор у масив
                 $timeGames = [];
 
+                /** @var Game $team */
                 foreach ($teams as $team) {
                     $gamesNotComplite = $this->em->getRepository('SportsBettingBundle:Game')->selectGamesWherePlayTeamFromOurGame($team->getId());
+                    /** @var Game $item */
                     foreach ($gamesNotComplite as $item) {
                     $timeGames[] = $item->getFinishTime();
 
@@ -76,7 +78,7 @@ class CreateTimeForGameCommand extends Command
                 } else {
                     $startTime = $maxTime->add(new \DateInterval('PT1M'));
                     $finishTime = clone $startTime;
-                    $finishTime = $startTime->add(new \DateInterval('PT1M'));
+                    $finishTime = $finishTime->add(new \DateInterval('PT1M'));
                 }
 
                 $game->setStartTime($startTime);

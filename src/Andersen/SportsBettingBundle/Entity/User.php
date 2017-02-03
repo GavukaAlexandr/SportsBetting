@@ -9,6 +9,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 /**
  * @ORM\Entity
  * @ORM\Table(name="user")
+ * @ORM\Entity(repositoryClass="Andersen\SportsBettingBundle\Repository\UserRepository")
  */
 Class User implements UserInterface, \JsonSerializable
 {

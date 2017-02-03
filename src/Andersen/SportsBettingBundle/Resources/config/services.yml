@@ -10,7 +10,7 @@ services:
             - { name: console.command }
 
     sports_betting.command.create_coefficient:
-            class: Andersen\SportsBettingBundle\Command\CreateCoefficientCommand
+            class: Andersen\SportsBettingBundle\Command\CreateBetsCommand
             arguments: ["@doctrine.orm.entity_manager"]
             tags:
                 - { name: console.command }

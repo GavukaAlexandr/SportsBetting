@@ -10,4 +10,15 @@ namespace Andersen\SportsBettingBundle\Repository;
  */
 class UserRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function findUserById($userId)
+    {
+        $query = $this->getEntityManager()->createQueryBuilder()
+            ->select('u')
+            ->from('SportsBettingBundle:User', 'u')
+            ->where("u.id = :userId")
+            ->setParameter('userId', $userId);
+        $query = $query->getQuery()->getResult();
+
+        return $query;
+    }
 }
