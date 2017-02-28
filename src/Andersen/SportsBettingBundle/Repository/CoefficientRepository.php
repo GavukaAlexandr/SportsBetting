@@ -10,18 +10,35 @@ namespace Andersen\SportsBettingBundle\Repository;
  */
 class CoefficientRepository extends \Doctrine\ORM\EntityRepository
 {
-    public function getTeamOfTypeCoefficient($gameId, $betValue)
+    public function getTeamOfTypeCoefficient($coefficientId)
     {
         $query = $this->getEntityManager()->createQueryBuilder()
             ->select('t', 'c', 'g')
             ->from('SportsBettingBundle:Coefficient', 'c')
             ->leftJoin('c.team', 't')
             ->leftJoin('c.game', 'g')
-            ->where("c.game = :gameId")
-            ->andWhere("c.typeCoefficient = :betValue")
-            ->setParameter('gameId', $gameId)
-            ->setParameter('betValue', $betValue);
+            ->where("c.id = :coefficientId")
+            ->setParameter('coefficientId', $coefficientId);
         $getQuery = $query->getQuery()->getSingleResult();
+        return $getQuery;
+    }
+
+    public function selectTeamCoefficientByGameId($gameId, $teamId)
+    {
+        $query = $this->getEntityManager()->createQueryBuilder()
+            ->select('c')
+            ->from('SportsBettingBundle:Coefficient', 'c')
+            ->where("c.game = :gameId");
+        if ($teamId === null) {
+            $query = $query->andWhere("c.team IS NULL");
+        } else {
+            $query = $query->andWhere("c.team = :teamId")
+                ->setParameter('teamId', $teamId);
+        }
+
+        $query = $query->setParameter('gameId', $gameId);
+        $getQuery = $query->getQuery()->getSingleResult();
+
         return $getQuery;
     }
 }

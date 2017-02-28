@@ -2,9 +2,12 @@
 
 namespace Andersen\SportsBettingBundle\Command;
 
+use Andersen\SportsBettingBundle\Entity\Bet;
+use Andersen\SportsBettingBundle\Entity\Coefficient;
 use Andersen\SportsBettingBundle\Entity\Game;
 use Andersen\SportsBettingBundle\Entity\Team;
 use Andersen\SportsBettingBundle\Entity\TeamResult;
+use Andersen\SportsBettingBundle\Entity\User;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Console\Command\Command;
@@ -58,7 +61,7 @@ class CompletingGamesCommand extends Command
 
             /** Rand team winner or draw */
             $rand = rand(1, 10);
-            if ($rand > 7) {
+            if ($rand > 1) {
                 $teamWinner = 0;
             } else {
                 $winner = array_rand($teams);
@@ -99,8 +102,56 @@ class CompletingGamesCommand extends Command
 
                 $this->em->persist($teamResult);
                 $this->em->flush();
+                $this->giveBenefits($game->getId());
             }
         }
 
+    }
+
+    private function giveBenefits($gameId)
+    {
+        //todo вибрать всіх юзерів які ставили на гру
+        /** @var Bet $users */
+        $usersBet = $this->em->getRepository('SportsBettingBundle:Bet')->selectUsersByGameId($gameId);
+        $users = [];
+
+        /** @var Bet $user */
+        foreach ($usersBet as $user) {
+            $users[$user->getUser()->getId()] = $user->getUser();
+        }
+
+        //todo вибрать команду яка виграла у грі і записати її в $teamId
+        /** @var Game $teamId */
+        $teamId = $this->em->getRepository('SportsBettingBundle:Game')->selectTeamWinnerByGameId($gameId);
+        $teamId = $teamId->getTeamWinner();
+
+        /** @var Bet $user */
+        foreach ($users as $user) {
+            //todo вибрать всі ставки юзера на команду яка виграла у грі
+            $userBets = $this->em->getRepository('SportsBettingBundle:Bet')->selectUserBetsInTeamInGame($user->getId(), $teamId, $gameId);
+
+            //todo знайти коефіцієнт для команди цеї гри
+            /** @var Coefficient $teamCoefficient */
+            $teamCoefficient = $this->em->getRepository('SportsBettingBundle:Coefficient')->selectTeamCoefficientByGameId($gameId, $teamId);
+            $teamCoefficient = $teamCoefficient->getValue();
+
+            //todo перемножити кожну ставку і записати виграш юзерові в базу
+            /** all $userBet * $teamCoefficient and write this in db */
+            $allMoneyInUserBets = null;
+
+            /** @var Bet $userBet */
+            foreach ($userBets as $userBet) {
+                $allMoneyInUserBets = $allMoneyInUserBets + $userBet->getMoney();
+            }
+
+            $resultBets = $allMoneyInUserBets * $teamCoefficient;
+
+            /** @var User $userMoney */
+            $userMoney = $user->getMoney() + $resultBets;
+
+            $user->setMoney($userMoney);
+            $this->em->persist($user);
+            $this->em->flush();
+        }
     }
 }

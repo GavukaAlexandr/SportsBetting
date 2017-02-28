@@ -54,6 +54,13 @@ class Coefficient implements \JsonSerializable
      */
     private $value;
 
+    /**
+     * @var $bets = [];
+     * One Coefficient have many Bets
+     * @ORM\OneToMany(targetEntity="Andersen\SportsBettingBundle\Entity\Bet", mappedBy="coefficient")
+     */
+    private $bets;
+
 
     /**
      * Get id
@@ -171,9 +178,53 @@ class Coefficient implements \JsonSerializable
     function jsonSerialize()
     {
         return [
+            'id' =>$this->getId(),
+            'game' => $this->getGame(),
+            'team' => $this->getTeam(),
             'type' => $this->getTypeCoefficient(),
             'value' => $this->getValue(),
         ];
         // TODO: Implement jsonSerialize() method.
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->bets = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add bet
+     *
+     * @param \Andersen\SportsBettingBundle\Entity\Bet $bet
+     *
+     * @return Coefficient
+     */
+    public function addBet(\Andersen\SportsBettingBundle\Entity\Bet $bet)
+    {
+        $this->bets[] = $bet;
+
+        return $this;
+    }
+
+    /**
+     * Remove bet
+     *
+     * @param \Andersen\SportsBettingBundle\Entity\Bet $bet
+     */
+    public function removeBet(\Andersen\SportsBettingBundle\Entity\Bet $bet)
+    {
+        $this->bets->removeElement($bet);
+    }
+
+    /**
+     * Get bets
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getBets()
+    {
+        return $this->bets;
     }
 }

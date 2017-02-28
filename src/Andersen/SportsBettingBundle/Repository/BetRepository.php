@@ -54,11 +54,46 @@ class BetRepository extends \Doctrine\ORM\EntityRepository
         return $query;
     }
 
-//    public function createBet($sportId, $teamId, $gameId, $userId, $betValue, $coefficientValue, $money)
-//    {
-//        $query = $this
-//            ->getEntityManager()
-//            ->createQueryBuilder()
-//
-//    }
+    public function selectUsersByGameId($gameId)
+    {
+        $query = $this
+            ->getEntityManager()
+            ->createQueryBuilder()
+            ->select('u', 'b')
+            ->from('SportsBettingBundle:Bet', 'b')
+            ->leftJoin('b.user', 'u')
+            ->where("b.game = :gameId")
+            ->setParameter('gameId', $gameId);
+        $query = $query->getQuery()->getResult();
+
+        return $query;
+    }
+
+    public function selectUserBetsInTeamInGame($userId, $teamWinner, $gameId)
+    {
+        $query = $this
+            ->getEntityManager()
+            ->createQueryBuilder()
+            ->select('b', 'g', 'u')
+            ->from('SportsBettingBundle:Bet', 'b')
+            ->leftJoin('b.game', 'g')
+            ->leftJoin('b.user', 'u')
+            ->where("g.id = :gameId")
+            ->andWhere("u.id = :userId");
+
+        if ($teamWinner === null) {
+            $query = $query->andWhere("b.team IS NULL");
+        } else {
+            $query = $query->andWhere("b.team = :teamWinner")
+                ->setParameter('teamWinner', $teamWinner);
+        }
+
+        $query = $query->setParameter('gameId', $gameId)
+            ->setParameter('userId', $userId);
+
+        $query->getParameters();
+        $query = $query->getQuery()->getResult();
+
+        return $query;
+    }
 }

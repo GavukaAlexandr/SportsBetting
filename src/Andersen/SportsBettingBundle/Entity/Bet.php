@@ -35,11 +35,11 @@ class Bet implements \JsonSerializable
     private $game;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="bets_value", type="integer")
+     * @var $coefficient
+     * Many Bets have one Coefficient
+     * @ORM\ManyToOne(targetEntity="Andersen\SportsBettingBundle\Entity\Coefficient", inversedBy="bets")
      */
-    private $betsValue;
+    private $coefficient;
 
     /**
      * Many bets have one user
@@ -122,30 +122,6 @@ class Bet implements \JsonSerializable
     }
 
     /**
-     * Set betsValue
-     *
-     * @param string $betsValue
-     *
-     * @return Bet
-     */
-    public function setBetsValue($betsValue)
-    {
-        $this->betsValue = $betsValue;
-
-        return $this;
-    }
-
-    /**
-     * Get betsValue
-     *
-     * @return string
-     */
-    public function getBetsValue()
-    {
-        return $this->betsValue;
-    }
-
-    /**
      * @return int
      */
     public function getMoney(): int
@@ -174,9 +150,40 @@ class Bet implements \JsonSerializable
             'user' => $this->getUser(),
             'game' => $this->getGame(),
             'team' => $this->getTeam(),
-            'BetValue' => $this->getBetsValue(),
+            'coefficient' => $this->getCoefficient(),
             'money' => $this->getMoney(),
         ];
         // TODO: Implement jsonSerialize() method.
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->coefficients = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Set coefficient
+     *
+     * @param \Andersen\SportsBettingBundle\Entity\Coefficient $coefficient
+     *
+     * @return Bet
+     */
+    public function setCoefficient(\Andersen\SportsBettingBundle\Entity\Coefficient $coefficient = null)
+    {
+        $this->coefficient = $coefficient;
+
+        return $this;
+    }
+
+    /**
+     * Get coefficient
+     *
+     * @return \Andersen\SportsBettingBundle\Entity\Coefficient
+     */
+    public function getCoefficient()
+    {
+        return $this->coefficient;
     }
 }

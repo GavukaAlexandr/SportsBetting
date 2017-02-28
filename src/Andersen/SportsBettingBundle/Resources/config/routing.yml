@@ -3,11 +3,11 @@ sports_betting_homepage:
     defaults: { _controller: SportsBettingBundle:Bet:getSports }
 
 sports_betting_all_games:
-    path: /sports/games
+    path:     /sports/games
     defaults: { _controller: SportsBettingBundle:Bet:getGames }
 
 sports_betting_all_bets:
-    path: /sports/bets
+    path:     /sports/bets
     defaults: { _controller: SportsBettingBundle:Bet:getBets }
 
 sports_betting_sports_games:
@@ -21,6 +21,10 @@ sports_betting_sports_bets:
 sports_betting_sports_game_teams:
     path:     /sports/{sportId}/game/{gameId}/teams
     defaults: { _controller: SportsBettingBundle:Bet:getSportGameTeams }
+
+sports_betting_sports_game_team_coefficient:
+    path:     /sports/{sportId}/game/{gameId}/teams/coefficient
+    defaults: { _controller: SportsBettingBundle:Bet:getCoefficientsForTeamsInGameId }
 
 sports_betting_list_bets_for_game:
     path: /sports/{sportId}/game/{gameId}/bets
@@ -48,6 +52,8 @@ sports_betting_register:
 ###=== GET /sports/{sportId}/games - список ігор по видові спорту
 
 ###---??? GET /sports/{sportId}/game/{gameId}/teams - список команд які беруть участь у грі
+
+###--- GET /sports/{sportId}/game/{gameId}/team{id}/coefficient - список коефіціентів команд які беруть участь у грі
 
 ###---??? GET /sports/{sportId}/game/{gameId}/bets - список ставок на гру
 

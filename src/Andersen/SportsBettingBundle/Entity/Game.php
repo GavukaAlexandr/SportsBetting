@@ -225,6 +225,7 @@ class Game implements \JsonSerializable
     function jsonSerialize()
     {
         return [
+            'id' => $this->getId(),
             'name' => $this->getName(),
 //            'teams' => $this->getTeams(),
 //            'teamWinner' => $this->getTeamWinner(),

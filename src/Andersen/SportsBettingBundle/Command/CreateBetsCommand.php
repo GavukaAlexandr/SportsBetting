@@ -51,8 +51,6 @@ class CreateBetsCommand extends Command
         /** send message in CLI */
         $output->writeln('now will create ' . $numberBets . ' bets');
 
-        $numberBets = $numberBets  - 1;
-
         /** select  not complete game */
         $notCompleteGame = $this->em->getRepository('SportsBettingBundle:Game')->notCompleteGame();
 
@@ -70,20 +68,27 @@ class CreateBetsCommand extends Command
             $games[] = $notCompleteGame[rand(0, $countNotCompleteGame)];
         }
 
+        /** @var Game $game */
         foreach ($games as $game) {
+            /** @var Team $teamsInGame */
             $teamsInGame = $this->em->getRepository('SportsBettingBundle:Team')->findTeamsInGame($game->getId());
-
-
+            /** @var Team $randTeamNumber */
             $randTeamNumber = array_rand($teamsInGame);
+            /** @var Team $randTeam */
             $randTeam = $teamsInGame[$randTeamNumber];
-            $randBet = rand(0, 1);
+
+            /** @var Coefficient $teamCoefficient */
+            $teamCoefficient = $this->em->getRepository('SportsBettingBundle:Coefficient')->selectTeamCoefficientByGameId($game->getId(), $randTeam->getId());
+
+
+//            $randBet = rand(0, 1);//todo заменить на ентити коефициент
             $randMoney = rand(1, 999);
 
             $bet = new Bet();
             $bet->setTeam($randTeam);
             $bet->setGame($game);
             $bet->setUser($user[0]);
-            $bet->setBetsValue($randBet);
+            $bet->setCoefficient($teamCoefficient);
             $bet->setMoney($randMoney);
             $this->em->persist($bet);
             $this->em->flush();

@@ -27,3 +27,28 @@ footer {
     margin-top: 0.5rem;
     color: #ffffff;
 }
+
+.game-bet {
+    margin-left: 0.5rem;
+    padding-left: 2.5rem;
+}
+
+.game-bet-font {
+    font-size: 2rem;
+    height: 5.5rem;
+}
+
+h1 > a {
+    color: #ffffff;
+    text-decoration: none;
+
+}
+
+h1 > a:hover{
+    color: #ffffff;
+    text-decoration: none;
+}
+h1 > a:visited {
+    color: #ffffff;
+    text-decoration: none;
+}

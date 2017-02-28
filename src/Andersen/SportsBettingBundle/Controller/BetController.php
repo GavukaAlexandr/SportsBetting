@@ -130,6 +130,7 @@ class BetController extends Controller
     {
         $query = $this->getDoctrine()->getManager()->getRepository('SportsBettingBundle:Bet')->findAll();
         $response = new JsonResponse($query);
+
         return $response;
     }
 
@@ -150,6 +151,21 @@ class BetController extends Controller
             ->getRepository('SportsBettingBundle:Team')
             ->findSportGameTeams($sportId, $gameId);
         $response = new JsonResponse($query);
+
+        return $response;
+    }
+
+
+    public function getCoefficientsForTeamsInGameIdAction($sportId, $gameId)
+    {
+        $query = $this->getDoctrine()->getRepository('SportsBettingBundle:Coefficient')->findBy(['game' => $gameId]);
+
+        if ($query[0]->getTeam() == null){
+            $query[0]->setTeam(['id' => 'null', 'name' => 'Draw']);
+        }
+
+        $response = new JsonResponse($query);
+
         return $response;
     }
 
@@ -179,7 +195,7 @@ class BetController extends Controller
     }
 
     /**
-     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param Request $request
      *
      * /sports/game/{gameId}/team/{teamId}/bet
      *
@@ -187,13 +203,21 @@ class BetController extends Controller
      */
     public function createBetAction(\Symfony\Component\HttpFoundation\Request $request)
     {
+        $parametersAsArray = [];
+        if ($content = $request->getContent()) {
+            $parametersAsArray = json_decode($content, true);
+        }
+
         /**
-         * Get POST parameters
+         * Get POST JSON object
          */
-        $gameId = $request->request->get('game_id');
-        $betValue = $request->request->get('bet_value');
-        $moneyToBet = $request->request->get('money');
-        $userId = $request->request->get('user_id');
+        $coefficientId = $parametersAsArray[coefficient_id];
+        $moneyToBet = $parametersAsArray[money];
+        $userId = $parametersAsArray[user_id];
+
+
+
+        //todo get user from http headers API token
 
         /**
          * Get User Of Id
@@ -217,32 +241,32 @@ class BetController extends Controller
             $em->persist($user);
 
             /**
-             * Get team of GameId and BetValue
+             * Get coefficient, gameId, teamId from coefficientId
              */
             $coefficient = $this->getDoctrine()
                 ->getRepository('SportsBettingBundle:Coefficient')
-                ->getTeamOfTypeCoefficient($gameId, $betValue);
+                ->getTeamOfTypeCoefficient($coefficientId);
 
-            /**
-             * Get Game object from GameEntity by Id
-             */
-            $game = $this->getDoctrine()->getRepository('SportsBettingBundle:Game')->findOneBy(['id' => $gameId]);
+//            /**
+//             * Get Game object from GameEntity by Id
+//             */
+//            $game = $this->getDoctrine()->getRepository('SportsBettingBundle:Game')->findOneBy(['id' => $gameId]);
 
             /**
              * Create Bet
              */
             $bet = new Bet();
             $bet->setTeam($coefficient->getTeam());
-            $bet->setGame($game);
+            $bet->setGame($coefficient->getGame());
             $bet->setUser($user);
-            $bet->setBetsValue($betValue);
+            $bet->setCoefficient($coefficient);
             $bet->setMoney($moneyToBet);
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($bet);
             $em->flush();
 
-            $response = new JsonResponse(['status' => 'ok']);
+            $response = new JsonResponse(['status' => 'the bet of successfully adopted!']);
             return $response;
         } else {
             $message = "Sorry, you don`t have enough money to bet";

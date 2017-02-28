@@ -130,4 +130,17 @@ class GameRepository extends \Doctrine\ORM\EntityRepository
 
         return $query;
     }
+
+    public function selectTeamWinnerByGameId($gameId)
+    {
+        $query = $this->getEntityManager()->createQueryBuilder()
+            ->select('g')
+            ->from('SportsBettingBundle:Game', 'g')
+            ->where("g.gameResult = 1")
+            ->andWhere("g.id = :gameId")
+            ->setParameter('gameId', $gameId);
+        $query = $query->getQuery()->getSingleResult();
+
+        return $query;
+    }
 }

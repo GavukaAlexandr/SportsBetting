@@ -4,6 +4,7 @@ namespace Andersen\SportsBettingBundle\Command;
 
 use Andersen\SportsBettingBundle\Entity\Coefficient;
 use Andersen\SportsBettingBundle\Entity\Game;
+use Andersen\SportsBettingBundle\Entity\Sport;
 use Andersen\SportsBettingBundle\Entity\Team;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManager;
@@ -43,57 +44,63 @@ class CreateGamesCommand extends Command
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
+
     {
-        // Get argument Of CLI
+        /** Get argument Of CLI */
         $numberGames = intval($input->getArgument('numberGames'));
         $numberSports = intval($input->getArgument('numberSports'));
-        $numberSports = $numberSports - 1;
 
-        // send message in CLI
+        /** send message in CLI */
         $output->writeln('now will create ' . $numberGames . ' games for you ' . $numberSports . ' sports type');
 
-        // get all sports
+        /** get all sports */
         $sports = $this->em->getRepository('SportsBettingBundle:Sport')->findAll();
         $countSports = count($sports) - 1;
 
-        // Create sports array
+        /** Create sports array */
         $sportsArray = [];
-        for ($i = 0; $i < $numberSports; $i++)
+        for ($a = 0; $a < $numberSports; $a++)
         {
-            $sportsArray[] = $sports[rand(0, $countSports)];
+            $this->createUniqueArray($sports, $sportsArray, $countSports);
         }
 
-        // Create Games for sport types
+        /** Create Games for sport types */
         foreach ($sportsArray as $sport) {
 
-            // get team by Id
+            /** get team by Id */
             $teams = $this->em->getRepository('SportsBettingBundle:Team')->findGamesOfSportType($sport->getId());
 
-            //Count teams
+            /** Count teams */
             $countTeams = count($teams) - 1;
 
-            // Create number of games
-            // Number games = CLI parametrs $numberGames
-            for ($a = 1; $a < $numberGames; $a++)
-            {
-                /** @var Team $nameObj1 */
-                // Generate random Game name
-                $nameObj1 = $teams[rand(0, $countTeams)];
-                $nameObj2 = $teams[rand(0, $countTeams)];
-                // Get name Of object
-                $name1 = $nameObj1->getName();
-                $name2 = $nameObj2->getName();
+            /** Create number of games
+                Number games = CLI parametrs $numberGames */
+            for ($a = 0; $a < $numberGames; $a++)
+            { //todo поместить в if для того что б создавалось имя только с 2 команд
+//
+//                /** @var Team $nameObj1 */
+//                /** @var Team $nameObj2 */
+//                /** Generate random Game name */
+//                $nameObj1 = $teams[rand(0, $countTeams)];
+//                $nameObj2 = $teams[rand(0, $countTeams)];
+//
+//                /** Get name Of Team*/
+//                $name1 = $nameObj1->getName();
+//                $name2 = $nameObj2->getName();
+//
+//                /** checking the uniqueness of the teams in the game */
+//                for ($n = $name1; $n == $name2;)
+//                {
+//                    if (count($teams) < 1) {
+//                        break;
+//                    }
+//                    $nameObj2 = $teams[rand(0, $countTeams)];
+//                    $name2 = $nameObj2->getName();
+//                }
+//
+//                $name = $name1 . " - " . $name2;
 
-                //checking the uniqueness of the teams in the game
-                for ($n = $name1; $n == $name2;)
-                {
-                    $nameObj2 = $teams[rand(1, $countTeams)];
-                    $name2 = $nameObj2->getName();
-                }
-
-                $name = $name1 . " - " . $name2;
-
-                //Write generated game in db
+                /** Write generated game in db */
                 $gameType = new Game();
                 $gameType->setName($name);
                 $gameType->setSport($sport);
@@ -101,11 +108,24 @@ class CreateGamesCommand extends Command
 
                 $this->em->persist($gameType);
 
-                $this->createCoefficient($nameObj1, $nameObj2, $gameType);
+//                $this->createCoefficient($nameObj1, $nameObj2, $gameType);
 
                 $this->em->flush();
             }
         }
+    }
+
+    public function createUniqueArray($sports, &$sportsArray, $countSports)
+    {
+        $sport = $sports[rand(0, $countSports)];
+
+        /** @var Sport $sport*/
+        if (array_key_exists($sport->getId(), $sportsArray)) {
+//            $sport = $sports[rand(0, $countSports)];
+            $this->createUniqueArray($sports, $sportsArray, $countSports);
+        }
+
+        $sportsArray[$sport->getId()] = $sport;
     }
 
     protected function createCoefficient($nameObj1, $nameObj2, $game)
@@ -113,29 +133,29 @@ class CreateGamesCommand extends Command
         /** Find games where teams played */
         $gamesWhereTeam1Played = count($this->em->getRepository('SportsBettingBundle:Game')->findGamesWhereTeamPlayed($nameObj1->getId()));
         if ($gamesWhereTeam1Played == 0) {
-            $gamesWhereTeam1Played = 50;
+            $gamesWhereTeam1Played = rand(10, 50);
         }
         $gamesWhereTeam2Played = count($this->em->getRepository('SportsBettingBundle:Game')->findGamesWhereTeamPlayed($nameObj2->getId()));
         if ($gamesWhereTeam2Played == 0) {
-            $gamesWhereTeam2Played = 50;
+            $gamesWhereTeam2Played = rand(10, 50);
         }
         /** Find games where teams won */
         $gamesWhereTeam1Won = count($this->em->getRepository('SportsBettingBundle:Game')->findGamesWithParameters($nameObj1->getId(), 1));
         if ($gamesWhereTeam1Won == 0) {
-            $gamesWhereTeam1Won = 40;
+            $gamesWhereTeam1Won = rand(10, 50);
         }
         $gamesWhereTeam2Won = count($this->em->getRepository('SportsBettingBundle:Game')->findGamesWithParameters($nameObj2->getId(), 1));
         if ($gamesWhereTeam2Won == 0) {
-            $gamesWhereTeam2Won = 40;
+            $gamesWhereTeam2Won = rand(10, 50);
         }
         /** Find games where teams Draw */
         $gamesWhereTeam1Draw = count($this->em->getRepository('SportsBettingBundle:Game')->findGamesWithParameters($nameObj1->getId(), 0));
         if ($gamesWhereTeam1Draw == 0) {
-            $gamesWhereTeam1Draw = 5;
+            $gamesWhereTeam1Draw = rand(10, 50);
         }
         $gamesWhereTeam2Draw = count($this->em->getRepository('SportsBettingBundle:Game')->findGamesWithParameters($nameObj2->getId(), 0));
         if ($gamesWhereTeam2Draw == 0) {
-            $gamesWhereTeam2Draw = 5;
+            $gamesWhereTeam2Draw = rand(10, 50);
         }
 
         /** the percentage of success of the team */
@@ -167,7 +187,7 @@ class CreateGamesCommand extends Command
         $team2 = round($team2, 2);
 
         $coefficient = new Coefficient();
-        $coefficient->setTeam($nameObj1);
+        $coefficient->setTeam(null);
         $coefficient->setGame($game);
         $coefficient->setTypeCoefficient(0);
         $coefficient->setValue($draw);

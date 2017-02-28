@@ -1,0 +1,25 @@
+<div class="col-lg-10 external">
+    <main class="col-lg-12 content-container">
+        <div class="col-lg-12">
+            <h3>Create bet</h3>
+            <div class="create-bet">
+
+                <div class="col-xs-3">
+                    <input class="form-control game-bet-font" type="number" ng-model="money" name="inputName" placeholder="enter the money">
+                </div>
+
+                <button class="btn btn-success btn-md game-bet"
+                        ng-repeat="team in teamInGame"
+                        ng-click="getCoefficient(team.id, team.team.id); isActive = true"
+                        ng-class="{'active': isActive}"
+                >{[{team.value}]}<br/>{[{team.team.name}]}</button>
+
+                <button class="btn btn-primary btn-md game-bet"
+                        ng-click="createBet()">CREATE<br/>BET</button>
+
+            </div>
+            <h2>{[{betStatusMessage.status}]}</h2>
+            <timer interval="1000" betStatusMessage="null"/>
+        </div>
+    </main>
+</div>

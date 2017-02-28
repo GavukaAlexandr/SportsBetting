@@ -18,70 +18,28 @@ routerApp.config(function($stateProvider, $urlRouterProvider) {
                 'content': {
                     templateUrl: 'asset/app/partials/content/content.html',
                     controller: 'MainContentCtrl'
-                },
-                'footer': {
-                    templateUrl: 'asset/app/partials/footer/footer.html'
                 }
+                // 'footer': {
+                //     templateUrl: 'asset/app/partials/footer/footer.html'
+                // }
             }
         })
         .state('home.sportgames', {
             url: 'sport/{sportId}/games',
             views: {
                 'content@': {
-                    templateUrl: 'asset/app/games/games.html',
+                    templateUrl: 'asset/app/partials/content/games/games.html',
                     controller: 'SportGamesCtrl'
                 }
             }
-        });
+        })
+        .state('home.sportgames.bet', {
+            url: '/{gameId}/bet',
+            views: {
+                'content@': {
+                    templateUrl: 'asset/app/partials/content/games/bet/game-bet.html',
+                    controller: 'SportBetCtrl'
+                }
+            }
+        })
 });
-
-routerApp.controller('LeftAsideCtrl', ['$scope', '$http', '$uibModal', function ($scope, $http, $uibModal) {
-    $scope.sports = [];
-    $http.get('/api/sports').then(function(res) {
-        $scope.sports = res.data;
-    });
-}]);
-
-routerApp.controller('SportGamesCtrl', ['$scope', '$http', '$stateParams', function ($scope, $http, $stateParams) {
-    $scope.sportGames = [];
-    $http.get('/api/sports/' +$stateParams.sportId+ '/games').then(function(res) {
-        $scope.sportGames = res.data
-    });
-}]);
-
-routerApp.controller('MainContentCtrl', ['$scope', '$http', function ($scope, $http) {
-    $scope.allGames = [];
-    $http.get('/api/sports/games').then(function(res) {
-        $scope.allGames = res.data
-    });
-
-    $scope.allBets =[];
-    $http.get('/api/sports/bets').then(function(res) {
-        $scope.allBets = res.data
-    });
-}]);
-
-////////////////   MODAL_REGISTER   //////////////////
-
-// routerApp.controller('openFormUser', ['$scope', '$http', '$uibModal', function ($scope, $http, $uibModal) {
-//
-//     $ctrl.animationsEnabled = true;
-//
-//     var modalInstance = $uibModal.open({
-//         animation: false,
-//         ariaLabelledBy: 'modal-title',
-//         ariaDescribedBy: 'modal-body',
-//         template: '<div>TEMPLATE</div>',
-//         // templateUrl: 'myModalContent.html',
-//         // controller: 'ModalInstanceCtrl',
-//         // controllerAs: '$ctrl',
-//         size: 'lg',
-//         // appendTo: parentElem,
-//         // resolve: {
-//         //     items: function () {
-//         //         return $ctrl.items;
-//         //     }
-//         // }
-//     });
-//
-// }]);

@@ -1,0 +1,17 @@
+<div class="col-lg-10 external">
+    <main class="col-lg-12 content-container">
+        <div class="col-lg-4 list-group">
+            <h3>Games by type of sport</h3>
+            <a class="list-group-item"
+               ng-repeat="game in sportGames"
+               ui-sref-active="active"
+               ui-sref="home.sportgames.bet({ sportId: sportIdentifier, gameId: game.id })"
+               href=""
+            >{[{ game.name }]}</a>
+        </div>
+
+        <div class="col-lg-8">
+
+        </div>
+    </main>
+</div>

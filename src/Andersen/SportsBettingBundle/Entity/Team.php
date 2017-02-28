@@ -231,6 +231,7 @@ class Team implements \JsonSerializable
     function jsonSerialize()
     {
         return [
+            'id' => $this->getId(),
             'name' => $this->getName(),
         ];
         // TODO: Implement jsonSerialize() method.
